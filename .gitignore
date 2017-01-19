@@ -5,6 +5,7 @@
 
 # Package Files #
 *.jar
+!arcadia.jar
 *.war
 *.ear
 
