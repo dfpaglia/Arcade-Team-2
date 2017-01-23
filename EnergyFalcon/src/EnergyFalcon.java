@@ -16,7 +16,6 @@ public class EnergyFalcon extends Game{
 	
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
-		// TODO Auto-generated method stub
 		
 	}
 
