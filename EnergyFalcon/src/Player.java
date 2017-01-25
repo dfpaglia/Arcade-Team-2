@@ -29,7 +29,6 @@ public class Player {
 		if(input.pressed(Button.R)){
 			x+=DELTA;
 		}
-		System.out.println("("+x+", "+y+")");
 	}
 	
 	public void draw(Graphics2D g){
