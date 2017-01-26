@@ -34,7 +34,7 @@ public class EnergyFalcon extends Game {
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
 		graphics.setColor(Color.black);
-		graphics.fillRect(0, 0, 1024, 576);
+		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		p.onTick(input);
 		p.draw(graphics);
 	}

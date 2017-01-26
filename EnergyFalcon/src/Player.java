@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import arcadia.Button;
+import arcadia.Game;
 import arcadia.Input;
 
 public class Player {
@@ -13,8 +14,8 @@ public class Player {
 	private int x, y;
 	
 	public Player(){
-		x = (1024/2) - 50;
-		y = (576/2) - 50;
+		x = (Game.WIDTH/2) - 50;
+		y = (Game.HEIGHT/2) - 50;
 	}
 	//Method that should be called every tick.
 	public void onTick(Input input){
