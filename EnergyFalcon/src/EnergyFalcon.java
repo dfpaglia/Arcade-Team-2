@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import shooter.Shooter;
 public class EnergyFalcon extends Game {
 
 	Image cover;
+	private static Player p;
 
 	public EnergyFalcon() {
 
@@ -25,13 +27,16 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
+		p = new Player();
 		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon(), new DodgeGame(), new Shooter() }));
 	}
 
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
-		// TODO Auto-generated method stub
-
+		graphics.setColor(Color.black);
+		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		p.onTick(input);
+		p.draw(graphics);
 	}
 
 	@Override
