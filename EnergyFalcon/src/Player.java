@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import arcadia.Button;
@@ -12,8 +13,8 @@ public class Player {
 	private int x, y;
 	
 	public Player(){
-		x = 0;
-		y = 0;
+		x = (1024/2) - 50;
+		y = (576/2) - 50;
 	}
 	//Method that should be called every tick.
 	public void onTick(Input input){
@@ -32,6 +33,7 @@ public class Player {
 	}
 	
 	public void draw(Graphics2D g){
-		//TODO insert drawing code for player
+		g.setColor(Color.BLUE);
+		g.fillRect(x,y, 100, 100);
 	}
 }
