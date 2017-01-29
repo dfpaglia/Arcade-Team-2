@@ -14,6 +14,10 @@ public class Player {
 	// If we want better movement(speed+precision), we need some sort of basic
 	// acceleration model.
 	private static final int DELTA = 4;
+	//This sets the player sprite dimensions. Changing these will change the size
+	//of the sprite, without having to screw with image editing programs.
+	private static final int PLAYER_WIDTH = 75;
+	private static final int PLAYER_HEIGHT = 63;
 	// X Y coordinates, relative to the top left of the screen.
 	private int x, y;
 	private Image playerSprite;
@@ -24,7 +28,7 @@ public class Player {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = (Game.WIDTH / 2) - 50;
 		y = (Game.HEIGHT / 2) - 50;
 	}

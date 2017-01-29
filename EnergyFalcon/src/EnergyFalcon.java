@@ -29,7 +29,7 @@ public class EnergyFalcon extends Game {
 
 	public static void main(String[] args) {
 		p = new Player();
-		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon(), new DodgeGame(), new Shooter() }));
+		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
 	@Override
