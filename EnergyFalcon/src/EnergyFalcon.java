@@ -9,27 +9,27 @@ import arcadia.Arcadia;
 import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
+import dodge.DodgeGame;
+import shooter.Shooter;
 
-public class EnergyFalcon extends Game{
-		Image cover, background;
+public class EnergyFalcon extends Game {
+	Image cover, background;
 	private static Player p;
 
 	public EnergyFalcon() {
-		
+
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
 			background = ImageIO.read(this.getClass().getResource("Arena2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 	}
-	public static void main(String[] args){	
-p = new Player();
-		Arcadia.display(new Arcadia(new Game[ ] {new DodgeGame(), new Shooter() }));
+
+	public static void main(String[] args) {
+		p = new Player();
+		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon(), new DodgeGame(), new Shooter() }));
 	}
 
 	@Override
@@ -42,7 +42,6 @@ p = new Player();
 		p.draw(graphics);
 	}
 
-	
 	@Override
 	public Image cover() {
 		return cover;
