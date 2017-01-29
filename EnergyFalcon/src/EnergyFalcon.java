@@ -13,17 +13,18 @@ import dodge.DodgeGame;
 import shooter.Shooter;
 
 public class EnergyFalcon extends Game {
-
-	Image cover;
+	Image cover, background;
 	private static Player p;
 
 	public EnergyFalcon() {
 
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
+			background = ImageIO.read(this.getClass().getResource("Arena2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static void main(String[] args) {
@@ -33,8 +34,10 @@ public class EnergyFalcon extends Game {
 
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
+		// TODO Auto-generated method stub
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		graphics.drawImage(background, 0, 0, null);
 		p.onTick(input);
 		p.draw(graphics);
 	}
@@ -43,4 +46,5 @@ public class EnergyFalcon extends Game {
 	public Image cover() {
 		return cover;
 	}
+
 }
