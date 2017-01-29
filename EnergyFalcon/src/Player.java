@@ -20,7 +20,7 @@ public class Player {
 	
 	public Player(){
 		try {
-			playerSprite = ImageIO.read(this.getClass().getResource("Arena2.png"));
+			playerSprite = ImageIO.read(this.getClass().getResource("FighterTest1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +45,6 @@ public class Player {
 	}
 	
 	public void draw(Graphics2D g){
-		g.setColor(Color.BLUE);
-		g.fillRect(x,y, 100, 100);
+		g.drawImage(playerSprite, x, y, null);
 	}
 }
