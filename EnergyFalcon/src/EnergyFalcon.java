@@ -9,8 +9,6 @@ import arcadia.Arcadia;
 import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
-import dodge.DodgeGame;
-import shooter.Shooter;
 
 public class EnergyFalcon extends Game {
 
