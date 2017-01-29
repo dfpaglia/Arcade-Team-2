@@ -10,9 +10,8 @@ import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
 
-public class EnergyFalcon extends Game {
-
-	Image cover, background;
+public class EnergyFalcon extends Game{
+		Image cover, background;
 	private static Player p;
 
 	public EnergyFalcon() {
@@ -28,14 +27,14 @@ public class EnergyFalcon extends Game {
 		
 		
 	}
-
-	public static void main(String[] args) {
-		p = new Player();
-		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon()}));
+	public static void main(String[] args){	
+p = new Player();
+		Arcadia.display(new Arcadia(new Game[ ] {new DodgeGame(), new Shooter() }));
 	}
 
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
+		// TODO Auto-generated method stub
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		graphics.drawImage(background, 0, 0, null);
@@ -48,5 +47,5 @@ public class EnergyFalcon extends Game {
 	public Image cover() {
 		return cover;
 	}
-	
+
 }
