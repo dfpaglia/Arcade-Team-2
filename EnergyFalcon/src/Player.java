@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import arcadia.Button;
 import arcadia.Game;
@@ -12,8 +16,15 @@ public class Player {
 	private static final int DELTA = 4;
 	//X Y coordinates, relative to the top left of the screen.
 	private int x, y;
+	private Image playerSprite;
 	
 	public Player(){
+		try {
+			playerSprite = ImageIO.read(this.getClass().getResource("Arena2.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		x = (Game.WIDTH/2) - 50;
 		y = (Game.HEIGHT/2) - 50;
 	}
