@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import arcadia.Input;
@@ -6,7 +7,7 @@ public class GenericEnemy implements Actor{
 	private static final int ENEMY_WIDTH=100;
 	private static final int ENEMY_HEIGHT=100;
 	
-	int x=100, y=100;
+	int x=200, y=200;
 	
 	public GenericEnemy(){
 		
@@ -20,6 +21,7 @@ public class GenericEnemy implements Actor{
 
 	@Override
 	public void draw(Graphics2D g) {
+		g.setColor(Color.red);
 		g.fillRect(x, y, ENEMY_WIDTH, ENEMY_WIDTH);
 	}
 

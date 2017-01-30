@@ -14,10 +14,13 @@ import shooter.Shooter;
 
 public class EnergyFalcon extends Game {
 	Image cover, background;
-	private static Player p;
+	private Player p;
+	private GenericEnemy e;
 
 	public EnergyFalcon() {
-
+		p = new Player();
+		e = new GenericEnemy();
+		
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
 			background = ImageIO.read(this.getClass().getResource("Arena2.png"));
@@ -28,7 +31,6 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
-		p = new Player();
 		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
@@ -39,7 +41,9 @@ public class EnergyFalcon extends Game {
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		graphics.drawImage(background, 0, 0, null);
 		p.onTick(input);
+		e.onTick(input);
 		p.draw(graphics);
+		e.draw(graphics);
 	}
 
 	@Override
