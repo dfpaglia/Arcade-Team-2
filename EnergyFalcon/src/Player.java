@@ -8,7 +8,7 @@ import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
 
-public class Player {
+public class Player implements Actor{
 	// This sets the amount of pixels you move per tick.
 	// Obviously, a higher number is faster, but less precise for movement.
 	// If we want better movement(speed+precision), we need some sort of basic
@@ -21,7 +21,9 @@ public class Player {
 	// X Y coordinates, relative to the top left of the screen.
 	private int x, y;
 	private Image playerSprite;
-
+	//TODO instatiate collider
+	private Collider collider;
+	
 	public Player() {
 		try {
 			playerSprite = ImageIO.read(this.getClass().getResource("FighterTest1.png"));
@@ -29,8 +31,8 @@ public class Player {
 			e.printStackTrace();
 		}
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
-		x = (Game.WIDTH / 2) - 50;
-		y = (Game.HEIGHT / 2) - 50;
+		x = Game.WIDTH / 2;
+		y = Game.HEIGHT / 2;
 	}
 
 	// Method that should be called every tick.
@@ -48,8 +50,11 @@ public class Player {
 			x += DELTA;
 		}
 	}
-
 	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, x, y, null);
+		g.drawImage(playerSprite, x - (PLAYER_WIDTH/2), y - (PLAYER_HEIGHT/2), null);
+	}
+	
+	public Collider getCollider(){
+		return collider;
 	}
 }
