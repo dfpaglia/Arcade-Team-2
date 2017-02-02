@@ -35,6 +35,26 @@ public class Player implements Actor{
 		y = Game.HEIGHT / 2;
 	}
 
+	public static int getDelta() {
+		return DELTA;
+	}
+
+	public static int getPlayerWidth() {
+		return PLAYER_WIDTH;
+	}
+
+	public static int getPlayerHeight() {
+		return PLAYER_HEIGHT;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
 	// Method that should be called every tick.
 	public void onTick(Input input) {
 		if (input.pressed(Button.U)) {
