@@ -15,7 +15,7 @@ public class Player implements Actor{
 	// acceleration model.
 	private static final int DELTA = 4;
 	private static final double ACCEL = 1;
-	private static final double DECCEL= 0.75;
+	private static final double DECCEL= 0.5;
 	//This sets the player sprite dimensions. Changing these will change the size
 	//of the sprite, without having to screw with image editing programs.
 	private static final int PLAYER_WIDTH = 75;
