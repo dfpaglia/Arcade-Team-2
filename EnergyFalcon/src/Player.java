@@ -19,7 +19,7 @@ public class Player implements Actor{
 	private static final int PLAYER_WIDTH = 75;
 	private static final int PLAYER_HEIGHT = 63;
 	// X Y coordinates, relative to the top left of the screen.
-	private int x, y;
+	private double x, y;
 	private Image playerSprite;
 	//TODO instatiate collider
 	private Collider collider;
@@ -51,7 +51,7 @@ public class Player implements Actor{
 		}
 	}
 	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, x - (PLAYER_WIDTH/2), y - (PLAYER_HEIGHT/2), null);
+		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
 	}
 	
 	public Collider getCollider(){
