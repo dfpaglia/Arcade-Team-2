@@ -14,6 +14,8 @@ public class Player implements Actor{
 	// If we want better movement(speed+precision), we need some sort of basic
 	// acceleration model.
 	private static final int DELTA = 4;
+	private static final int ACCEL = 4;
+	private static final int DECCEL= 4;
 	//This sets the player sprite dimensions. Changing these will change the size
 	//of the sprite, without having to screw with image editing programs.
 	private static final int PLAYER_WIDTH = 75;
