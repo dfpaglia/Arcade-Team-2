@@ -13,7 +13,6 @@ public class Player implements Actor{
 	// Obviously, a higher number is faster, but less precise for movement.
 	// If we want better movement(speed+precision), we need some sort of basic
 	// acceleration model.
-	private static final int DELTA = 4;
 	private static final double ACCEL = 1;
 	private static final double DECCEL= 0.5;
 	//This sets the player sprite dimensions. Changing these will change the size
@@ -25,7 +24,6 @@ public class Player implements Actor{
 	// X Y coordinates, relative to the top left of the screen.
 	private double x, y;
 	private Vector2D vel;
-	private boolean accelerated = false;
 	private Image playerSprite;
 	//TODO instatiate collider
 	private Collider collider;
@@ -44,48 +42,7 @@ public class Player implements Actor{
 
 	// Method that should be called every tick.
 	public void onTick(Input input) {
-		Vector2D projection = new Vector2D(0,0,1);
-		accelerated = false;
-		
-		if (input.pressed(Button.U)) {
-			vel = Vector2D.add(vel, new Vector2D(0, -ACCEL, 1));
-			accelerated = true;
-		}else if (input.pressed(Button.D)) {
-			vel = Vector2D.add(vel, new Vector2D(0, ACCEL, 1));
-			accelerated = true;
-		}else{
-			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(0, 1, 1)));
-		}
-		
-		if (input.pressed(Button.L)) {
-			vel = Vector2D.add(vel, new Vector2D(-ACCEL, 0, 1));
-			accelerated = true;
-		}else if (input.pressed(Button.R)) {
-			vel = Vector2D.add(vel, new Vector2D(ACCEL, 0, 1));
-			accelerated = true;
-		}else{
-			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(1, 0, 1)));
-		}
-		projection = Vector2D.scale(Vector2D.unitVector(projection), DECCEL);
-		
-		if(projection.getX()*projection.getX() > vel.getX()*vel.getX()){
-			vel.setX(0);
-		}else{
-			vel.setX(vel.getX() - projection.getX());
-		}
-		
-		if(projection.getY()*projection.getY() > vel.getY()*vel.getY()){
-			vel.setY(0);
-		}else{
-			vel.setY(vel.getY() - projection.getY());
-		}
-		
-		if(vel.magnitude() > V_MAX){
-			vel = Vector2D.scale(Vector2D.unitVector(vel), V_MAX);
-		}
-		
-		x += vel.getX();
-		y += vel.getY();
+		calcNextPos(input);
 	}
 	
 	public void draw(Graphics2D g) {
@@ -94,5 +51,54 @@ public class Player implements Actor{
 	
 	public Collider getCollider(){
 		return collider;
+	}
+	
+	private void calcNextPos(Input input){
+		//This vector will represent the current velocity
+		//projected onto whatever axis (singular or multiple)
+		//That isn't being pressed right now.
+		Vector2D projection = new Vector2D(0,0,1);
+		
+		if (input.pressed(Button.U)) {
+			vel = Vector2D.add(vel, new Vector2D(0, -ACCEL, 1));
+		}else if (input.pressed(Button.D)) {
+			vel = Vector2D.add(vel, new Vector2D(0, ACCEL, 1));
+		}else{
+			//if neither up or down is being pressed, then project the current velocity
+			// onto the y axis and add it to projection
+			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(0, 1, 1)));
+		}
+		
+		if (input.pressed(Button.L)) {
+			vel = Vector2D.add(vel, new Vector2D(-ACCEL, 0, 1));
+		}else if (input.pressed(Button.R)) {
+			vel = Vector2D.add(vel, new Vector2D(ACCEL, 0, 1));
+		}else{
+			//if neither left or right is being pressed, then project the current velocity
+			// onto the x axis and add it to projection
+			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(1, 0, 1)));
+		}
+		//Scale the projection vector by our deceleration.
+		projection = Vector2D.scale(Vector2D.unitVector(projection), DECCEL);
+		//Take away velocity if projection is smaller in maginatude than vel,
+		//otherwise set to 0.
+		if(projection.getX()*projection.getX() > vel.getX()*vel.getX()){
+			vel.setX(0);
+		}else{
+			vel.setX(vel.getX() - projection.getX());
+		}
+		//Same as above, but for y.
+		if(projection.getY()*projection.getY() > vel.getY()*vel.getY()){
+			vel.setY(0);
+		}else{
+			vel.setY(vel.getY() - projection.getY());
+		}
+		//Cap the velocity at V_MAX
+		if(vel.magnitude() > V_MAX){
+			vel = Vector2D.scale(Vector2D.unitVector(vel), V_MAX);
+		}
+		//Add velocity to position.
+		x += vel.getX();
+		y += vel.getY();
 	}
 }
