@@ -9,7 +9,7 @@ public class GenericEnemy implements Actor{
 
 	private Player p;
 	private double x=400, y=250;
-	double speed = 2.0;
+	double speed = 3.0;
 
 	public GenericEnemy(Player p){
 		this.p = p;
