@@ -21,7 +21,7 @@ public class Player implements Actor{
 	// X Y coordinates, relative to the top left of the screen.
 	private int x, y;
 	private Image playerSprite;
-	//TODO instatiate collider
+	//TODO instantiate collider
 	private Collider collider;
 	
 	public Player() {
