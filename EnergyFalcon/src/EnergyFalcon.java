@@ -9,22 +9,26 @@ import arcadia.Arcadia;
 import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
-import dodge.DodgeGame;
-import shooter.Shooter;
+
 
 public class EnergyFalcon extends Game {
 	Image cover, background;
 	private Player p;
 	private GenericEnemy e;
+	private PlayerHealth h;
+	int hCount = 4;
+
 
 	public EnergyFalcon() {
+
 		p = new Player();
 		e = new GenericEnemy(p);
-		
-		
+		h = new PlayerHealth();
+
+
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
-			background = ImageIO.read(this.getClass().getResource("Arena2.png"));
+			background = ImageIO.read(this.getClass().getResource("ArenaFix.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -32,7 +36,9 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
+
 		Arcadia.display(new Arcadia(new Game[] {new EnergyFalcon()}));
+
 	}
 
 	@Override
@@ -41,6 +47,7 @@ public class EnergyFalcon extends Game {
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		graphics.drawImage(background, 0, 0, null);
+		graphics.drawImage(h.healthDraw(hCount), -20, -20, null);
 		p.onTick(input);
 		e.onTick(input);
 		p.draw(graphics);
@@ -53,3 +60,4 @@ public class EnergyFalcon extends Game {
 	}
 
 }
+

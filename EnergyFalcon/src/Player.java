@@ -9,10 +9,7 @@ import arcadia.Game;
 import arcadia.Input;
 
 public class Player implements Actor{
-	// This sets the amount of pixels you move per tick.
-	// Obviously, a higher number is faster, but less precise for movement.
-	// If we want better movement(speed+precision), we need some sort of basic
-	// acceleration model.
+
 	private static final double ACCEL = 1;
 	private static final double DECCEL= 1;
 	//This sets the player sprite dimensions. Changing these will change the size
@@ -25,7 +22,9 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Image playerSprite;
-	//TODO instantiate collider
+
+
+	//TODO instatiate collider
 	private Collider collider;
 	
 	public Player() {
@@ -34,6 +33,7 @@ public class Player implements Actor{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		vel = new Vector2D(0,0,1);
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
@@ -60,14 +60,19 @@ public class Player implements Actor{
 	public void onTick(Input input) {
 		calcNextPos(input);
 	}
-	
-	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-	}
+
+
+
 	
 	public Collider getCollider(){
 		return collider;
 	}
+
+
+	public void draw(Graphics2D g) {
+		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+	}
+	
 	
 	private void calcNextPos(Input input){
 		//This vector will represent the current velocity

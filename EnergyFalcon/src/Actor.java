@@ -6,4 +6,6 @@ public interface Actor{
 	void onTick(Input input);
 	void draw(Graphics2D g);
 	Collider getCollider();
+
 }
+
