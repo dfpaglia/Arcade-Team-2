@@ -25,19 +25,19 @@ public CircularCollision(double x, double y, double r) {
 	}
 
 	@Override
-	public void setPos(int x, int y) {
+	public void setPos(double x, double y) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public int getX() {
+	public double getX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getY() {
+	public double getY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
