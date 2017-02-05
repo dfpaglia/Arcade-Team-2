@@ -19,7 +19,8 @@ public class EnergyFalcon extends Game {
 
 	public EnergyFalcon() {
 		p = new Player();
-		e = new GenericEnemy();
+		e = new GenericEnemy(p);
+		
 		
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
