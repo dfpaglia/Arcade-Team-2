@@ -14,13 +14,13 @@ public class Player implements Actor{
 	// If we want better movement(speed+precision), we need some sort of basic
 	// acceleration model.
 	private static final double ACCEL = 1;
-	private static final double DECCEL= 0.5;
+	private static final double DECCEL= 1;
 	//This sets the player sprite dimensions. Changing these will change the size
 	//of the sprite, without having to screw with image editing programs.
 	private static final int PLAYER_WIDTH = 75;
 	private static final int PLAYER_HEIGHT = 63;
 	//Max Velocity (magnitude)
-	private static final double V_MAX = 10;
+	private static final double V_MAX = 8;
 	// X Y coordinates, relative to the top left of the screen.
 	private double x, y;
 	private Vector2D vel;
@@ -66,7 +66,7 @@ public class Player implements Actor{
 		}else{
 			//if neither up or down is being pressed, then project the current velocity
 			// onto the y axis and add it to projection
-			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(0, 1, 1)));
+			projection.setY(vel.getY());
 		}
 		
 		if (input.pressed(Button.L)) {
@@ -76,7 +76,7 @@ public class Player implements Actor{
 		}else{
 			//if neither left or right is being pressed, then project the current velocity
 			// onto the x axis and add it to projection
-			projection = Vector2D.add(projection, Vector2D.project(vel, new Vector2D(1, 0, 1)));
+			projection.setX(vel.getX());
 		}
 		//Scale the projection vector by our deceleration.
 		projection = Vector2D.scale(Vector2D.unitVector(projection), DECCEL);
