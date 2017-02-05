@@ -4,3 +4,4 @@ public interface Collider {
 	int getX();
 	int getY();
 }
+
