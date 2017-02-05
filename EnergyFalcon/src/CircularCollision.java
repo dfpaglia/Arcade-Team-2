@@ -1,25 +1,25 @@
 
 public class CircularCollision implements Collider {
 
-double x; 
-double y;
-double r;
+	double x;
+	double y;
+	double r;
 
-public CircularCollision(double x, double y, double r) {
-	this.x = x;
-	this.y = y;
-	this.r = r;
-	
-}
-	
+	public CircularCollision(double x, double y, double r) {
+		this.x = x;
+		this.y = y;
+		this.r = r;
+
+	}
+
 	@Override
 	public boolean collides(Collider c) {
-		if( c instanceof CircularCollision) {
-		double xDif = x - c.getX();
-		double yDif = y - c.getY();
-		double distanceSquared = xDif * xDif + yDif * yDif;
-		boolean collision = distanceSquared < (r + ((CircularCollision)c).r) * (r + ((CircularCollision)c).r);
-		return collision;
+		if (c instanceof CircularCollision) {
+			double xDif = x - c.getX();
+			double yDif = y - c.getY();
+			double distanceSquared = xDif * xDif + yDif * yDif;
+			boolean collision = distanceSquared < (r + ((CircularCollision) c).r) * (r + ((CircularCollision) c).r);
+			return collision;
 		}
 		return false;
 	}
@@ -27,19 +27,21 @@ public CircularCollision(double x, double y, double r) {
 	@Override
 	public void setPos(double x, double y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public double getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	public double getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return y;
+	}
+
+	public double getR() {
+		return r;
 	}
 
 }
