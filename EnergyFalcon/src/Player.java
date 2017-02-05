@@ -25,7 +25,7 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Image playerSprite;
-	//TODO instatiate collider
+	//TODO instantiate collider
 	private Collider collider;
 	
 	public Player() {
