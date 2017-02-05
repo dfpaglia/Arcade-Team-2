@@ -20,6 +20,7 @@ public class EnergyFalcon extends Game {
 	int hCount = 4;
 
 	public EnergyFalcon() {
+
 		p = new Player();
 		e = new GenericEnemy();
 		h = new PlayerHealth();
@@ -34,7 +35,11 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
+
 		Arcadia.display(new Arcadia(new Game[] {new EnergyFalcon()}));
+
+		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon(), new DodgeGame(), new Shooter() }));
+
 	}
 
 	@Override
@@ -57,3 +62,4 @@ public class EnergyFalcon extends Game {
 	}
 
 }
+

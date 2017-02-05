@@ -8,19 +8,24 @@ import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
 
+
 public class Player implements Actor{
+
+	// branch 'Drawing' of https://github.com/dfpaglia/Arcade-Team-2.git
 	// This sets the amount of pixels you move per tick.
 	// Obviously, a higher number is faster, but less precise for movement.
 	// If we want better movement(speed+precision), we need some sort of basic
 	// acceleration model.
 	private static final int DELTA = 4;
+
 	//This sets the player sprite dimensions. Changing these will change the size
 	//of the sprite, without having to screw with image editing programs.
 	private static final int PLAYER_WIDTH = 75;
 	private static final int PLAYER_HEIGHT = 63;
-	// X Y coordinates, relative to the top left of the screen.
+
 	private int x, y;
 	private Image playerSprite;
+
 	//TODO instatiate collider
 	private Collider collider;
 	
@@ -30,9 +35,11 @@ public class Player implements Actor{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
 		y = Game.HEIGHT / 2;
+
 	}
 
 	// Method that should be called every tick.
@@ -50,11 +57,15 @@ public class Player implements Actor{
 			x += DELTA;
 		}
 	}
-	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, x - (PLAYER_WIDTH/2), y - (PLAYER_HEIGHT/2), null);
-	}
+
+
 	
 	public Collider getCollider(){
 		return collider;
+	}
+
+	public void draw(Graphics2D g) {
+		g.drawImage(playerSprite, x, y, null);
+
 	}
 }
