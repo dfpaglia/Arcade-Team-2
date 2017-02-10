@@ -10,14 +10,15 @@ public class GenericEnemy implements Actor{
 	private Player p;
 	private double x=400, y=250;
 	double speed = 3.0;
-
+	private CircularCollision collision;
+	
 	public GenericEnemy(Player p){
 		this.p = p;
+		collision = new CircularCollision(x,y, Math.min(ENEMY_WIDTH/2, ENEMY_HEIGHT/2));
 	}
 	
 	@Override
 	public void onTick(Input input) {
-		// TODO Auto-generated method stub
 		double moveToX = p.getX();
 		double moveToY = p.getY();
 		
@@ -29,6 +30,7 @@ public class GenericEnemy implements Actor{
 		x += speed * Math.cos(angle);
 		y += speed * Math.sin(angle);
 		
+		collision.setPos(x, y);
 		
 	}
 
@@ -40,8 +42,7 @@ public class GenericEnemy implements Actor{
 
 	@Override
 	public Collider getCollider() {
-		// TODO Auto-generated method stub
-		return null;
+		return collision;
 	}
 
 	public double getX() {

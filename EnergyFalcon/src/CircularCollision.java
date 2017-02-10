@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 
 public class CircularCollision implements Collider {
 
@@ -90,5 +91,8 @@ public class CircularCollision implements Collider {
 	public double getR() {
 		return r;
 	}
-
+	
+	void drawCollision(Graphics2D g){
+		g.drawOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
+	}
 }

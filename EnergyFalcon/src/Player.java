@@ -22,10 +22,8 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Image playerSprite;
-
-
-	//TODO instatiate collider
-	private Collider collider;
+	
+	private CircularCollision collision;
 	
 	public Player() {
 		try {
@@ -33,7 +31,9 @@ public class Player implements Actor{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		collision = new CircularCollision(x,y,Math.min(PLAYER_WIDTH/2+4, PLAYER_HEIGHT/2+4));
+		
 		vel = new Vector2D(0,0,1);
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
@@ -59,13 +59,14 @@ public class Player implements Actor{
 	// Method that should be called every tick.
 	public void onTick(Input input) {
 		calcNextPos(input);
+		collision.setPos(x, y);
 	}
 
 
 
 	
 	public Collider getCollider(){
-		return collider;
+		return collision;
 	}
 
 
