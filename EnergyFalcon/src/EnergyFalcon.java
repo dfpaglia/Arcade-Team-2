@@ -50,6 +50,10 @@ public class EnergyFalcon extends Game {
 		graphics.drawImage(h.healthDraw(hCount), -20, -20, null);
 		p.onTick(input);
 		e.onTick(input);
+		//TODO add a more modular way to check collision
+		if(p.getCollider().collides(e.getCollider())){
+			System.out.println("Collides");
+		}
 		p.draw(graphics);
 		e.draw(graphics);
 	}
