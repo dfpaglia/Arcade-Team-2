@@ -20,7 +20,6 @@ public class Player implements Actor{
 	private static final double V_MAX = 8;
 	// X Y coordinates, relative to the top left of the screen.
 	private double x, y;
-	private double oldx, oldy;
 	private Vector2D vel;
 	private Image playerSprite;
 	
@@ -59,8 +58,6 @@ public class Player implements Actor{
 
 	// Method that should be called every tick.
 	public void onTick(Input input) {
-		oldx = x;
-		oldy = y;
 		calcNextPos(input);
 		collision.setPos(x - PLAYER_WIDTH/2, y-PLAYER_HEIGHT/2);
 	}
@@ -128,14 +125,23 @@ public class Player implements Actor{
 	}
 	
 	public void collidesWithWall(int wall){
-		x = oldx;
-		y = oldy;
-		if(wall == Wall.TOP_WALL || wall == Wall.BOTTOM_WALL){
-			vel = new Vector2D(vel.getX(), 0, 1);
-			x += vel.getX();
-		}else if(wall == Wall.LEFT_WALL || wall == Wall.RIGHT_WALL){
-			vel = new Vector2D(0, vel.getY(), 1);
-			y += vel.getY();
+		switch(wall){
+			case Wall.TOP_WALL:
+				y = Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2;
+				vel.setY(0);
+				break;
+			case Wall.BOTTOM_WALL:
+				y = Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT/2 - 1;
+				vel.setY(0);
+				break;
+			case Wall.LEFT_WALL:
+				x = Wall.LEFT_WALL_EDGE + PLAYER_WIDTH/2;
+				vel.setX(0);
+				break;
+			case Wall.RIGHT_WALL:
+				x = Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH/2 - 1;
+				vel.setX(0);
+				break;
 		}
 	}
 }
