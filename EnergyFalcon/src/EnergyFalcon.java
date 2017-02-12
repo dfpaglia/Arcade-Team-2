@@ -57,7 +57,7 @@ public class EnergyFalcon extends Game {
 		e.onTick(input);
 		//TODO add a more modular way to check collision
 		if(p.getCollider().collides(e.getCollider())){
-			System.out.println("Collides");
+			//TODO add something to do on collision
 		}
 		for(int i = 0;i<walls.length;i++){
 			if(walls[i].getCollision().collides(p.getCollider())){
