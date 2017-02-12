@@ -10,11 +10,11 @@ public class GenericEnemy implements Actor{
 	private Player p;
 	private double x=400, y=250;
 	double speed = 3.0;
-	private CircularCollision collision;
+	private BoxCollision collision;
 	
 	public GenericEnemy(Player p){
 		this.p = p;
-		collision = new CircularCollision(x,y, Math.min(ENEMY_WIDTH/2, ENEMY_HEIGHT/2));
+		collision = new BoxCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT);
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public class GenericEnemy implements Actor{
 		x += speed * Math.cos(angle);
 		y += speed * Math.sin(angle);
 		
-		collision.setPos(x, y);
+		collision.setPos(x-ENEMY_WIDTH/2, y-ENEMY_HEIGHT/2);
 		
 	}
 
@@ -52,6 +52,5 @@ public class GenericEnemy implements Actor{
 	public double getY() {
 		return y;
 	}
-
 }
 

@@ -72,7 +72,6 @@ public class Player implements Actor{
 
 	public void draw(Graphics2D g) {
 		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-		collision.drawCollision(g);
 	}
 	
 	
