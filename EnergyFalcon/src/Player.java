@@ -22,10 +22,8 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Image playerSprite;
-
-
-	//TODO instatiate collider
-	private Collider collider;
+	
+	private BoxCollision collision;
 	
 	public Player() {
 		try {
@@ -33,7 +31,9 @@ public class Player implements Actor{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		collision = new BoxCollision(x - PLAYER_WIDTH/2,y-PLAYER_HEIGHT/2,PLAYER_WIDTH,PLAYER_HEIGHT);
+		
 		vel = new Vector2D(0,0,1);
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
@@ -59,13 +59,14 @@ public class Player implements Actor{
 	// Method that should be called every tick.
 	public void onTick(Input input) {
 		calcNextPos(input);
+		collision.setPos(x - PLAYER_WIDTH/2, y-PLAYER_HEIGHT/2);
 	}
 
 
 
 	
 	public Collider getCollider(){
-		return collider;
+		return collision;
 	}
 
 
@@ -121,5 +122,26 @@ public class Player implements Actor{
 		//Add velocity to position.
 		x += vel.getX();
 		y += vel.getY();
+	}
+	
+	public void collidesWithWall(int wall){
+		switch(wall){
+			case Wall.TOP_WALL:
+				y = Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2;
+				vel.setY(0);
+				break;
+			case Wall.BOTTOM_WALL:
+				y = Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT/2 - 1;
+				vel.setY(0);
+				break;
+			case Wall.LEFT_WALL:
+				x = Wall.LEFT_WALL_EDGE + PLAYER_WIDTH/2;
+				vel.setX(0);
+				break;
+			case Wall.RIGHT_WALL:
+				x = Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH/2 - 1;
+				vel.setX(0);
+				break;
+		}
 	}
 }

@@ -14,10 +14,12 @@ public class GenericEnemy implements Actor{
 	private Player p;
 	private double x=400, y=250;
 	double speed = 3.0;
+	private BoxCollision collision;
 	private Image enemySprite;
 
 	public GenericEnemy(Player p){
 		this.p = p;
+		collision = new BoxCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT);
 		
 		try {
 			
@@ -30,7 +32,6 @@ public class GenericEnemy implements Actor{
 	
 	@Override
 	public void onTick(Input input) {
-		// TODO Auto-generated method stub
 		double moveToX = p.getX();
 		double moveToY = p.getY();
 		
@@ -42,6 +43,7 @@ public class GenericEnemy implements Actor{
 		x += speed * Math.cos(angle);
 		y += speed * Math.sin(angle);
 		
+		collision.setPos(x-ENEMY_WIDTH/2, y-ENEMY_HEIGHT/2);
 		
 	}
 
@@ -52,8 +54,7 @@ public class GenericEnemy implements Actor{
 
 	@Override
 	public Collider getCollider() {
-		// TODO Auto-generated method stub
-		return null;
+		return collision;
 	}
 
 	public double getX() {
@@ -63,6 +64,5 @@ public class GenericEnemy implements Actor{
 	public double getY() {
 		return y;
 	}
-
 }
 
