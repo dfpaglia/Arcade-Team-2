@@ -7,21 +7,39 @@ public class PlayerHealth {
 
 	private Image[] playerHealthSprite = new Image[4];
 	private int scalar = 124;
+	public int health = 4;
+	public int healthCeiling = 4;
+	public long hitTime = 0;
+	public long hitTimeCeiling = 1;
+	
 	
 	public PlayerHealth(){
 	
 		try {
+			
 			playerHealthSprite[0] = ImageIO.read(this.getClass().getResource("Banner1.png")).getScaledInstance(scalar, scalar, 0);
 			playerHealthSprite[1] = ImageIO.read(this.getClass().getResource("Banner2.png")).getScaledInstance(scalar, scalar, 0);
 			playerHealthSprite[2] = ImageIO.read(this.getClass().getResource("Banner3.png")).getScaledInstance(scalar, scalar, 0);
-			playerHealthSprite[3] = ImageIO.read(this.getClass().getResource("Banner1.png")).getScaledInstance(scalar, scalar, 0);
+			playerHealthSprite[3] = ImageIO.read(this.getClass().getResource("Banner4.png")).getScaledInstance(scalar, scalar, 0);
 		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Image healthDraw(int health){
+	public void heal() {
+		if(health < healthCeiling)
+			health++;
+	}
+	
+	public void hurt() {
+		if(hitTime <= hitTimeCeiling){
+			health--;
+			hitTime = System.nanoTime();
+		}
+	}
+	
+	public Image healthDraw(){
 		
 		switch(health){
 		case 4:
