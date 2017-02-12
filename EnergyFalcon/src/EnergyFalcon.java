@@ -18,8 +18,8 @@ public class EnergyFalcon extends Game {
 	private PlayerHealth h;
 	int hCount = 4;
 
-	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("music.wav"));
-	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("sound.aiff"));
+	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
+	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
 	boolean playing = false;
 
 	public EnergyFalcon() {
