@@ -19,9 +19,7 @@ public class GenericEnemy implements Actor{
 	private class EnemyCollision extends BoxCollision{
 
 		public EnemyCollision(double x, double y, double width, double height) {
-			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION);
-			//Add in this hitbox as a hurtbox as well
-			CollisionTracker.addCollider(this, CollisionType.ENEMY_HURTBOX_COLLISION);
+			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION, CollisionType.ENEMY_HURTBOX_COLLISION);
 		}
 
 		public void onCollide(CollisionType t, Object extraData) {
@@ -36,12 +34,6 @@ public class GenericEnemy implements Actor{
 				break;
 			
 			}
-		}
-		
-		@Override
-		public void destruct(){
-			super.destruct();
-			CollisionTracker.removeCollision(this, CollisionType.ENEMY_HURTBOX_COLLISION);
 		}
 		
 	};

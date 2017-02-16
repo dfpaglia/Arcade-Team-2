@@ -1,10 +1,17 @@
 public abstract class Collider {
-	CollisionType type;
+	CollisionType[] types;
 	public Collider(CollisionType type){
-		this.type = type;
+		this.types = new CollisionType[1];
+		this.types[0] = type;
 		CollisionTracker.addCollider(this, type);
 	}
 	
+	public Collider(CollisionType... types){
+		this.types = types;
+		for(CollisionType t : types){
+			CollisionTracker.addCollider(this, t);
+		}
+	}
 	abstract boolean collides(Collider c);
 	abstract void setPos(double x, double y);
 	abstract double getX();
@@ -12,7 +19,9 @@ public abstract class Collider {
 	abstract void onCollide(CollisionType t, Object extraData);
 	
 	void destruct(){
-		CollisionTracker.removeCollision(this, type);
+		for(CollisionType t : types){
+			CollisionTracker.removeCollision(this, t);
+		}
 	}
 }
 

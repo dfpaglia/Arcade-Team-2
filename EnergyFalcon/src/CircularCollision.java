@@ -14,6 +14,14 @@ public abstract class CircularCollision extends Collider {
 
 	}
 
+	public CircularCollision(double x, double y, double r, CollisionType... type) {
+		super(type);
+		this.x = x;
+		this.y = y;
+		this.r = r;
+
+	}
+	
 	@Override
 	public boolean collides(Collider c) {
 		if (c instanceof CircularCollision) {
@@ -96,6 +104,4 @@ public abstract class CircularCollision extends Collider {
 	public void drawCollision(Graphics2D g){
 		g.drawOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
 	}
-	
-	public abstract void onCollide(CollisionType t, Object extraData);
 }

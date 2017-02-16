@@ -13,6 +13,14 @@ public abstract class BoxCollision extends Collider {
 		this.height = height;
 	}
 	
+	public BoxCollision(double x, double y, double width, double height, CollisionType... type){
+		super(type);
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+	
 	public double getHeight() {
 		return height;
 	}
@@ -91,6 +99,4 @@ public abstract class BoxCollision extends Collider {
 	public void drawCollision(Graphics2D g){
 		g.drawRect((int)Math.round(x), (int)Math.round(y), (int)Math.round(width), (int)Math.round(height));
 	}
-	
-	public abstract void onCollide(CollisionType t, Object extraData);
 }
