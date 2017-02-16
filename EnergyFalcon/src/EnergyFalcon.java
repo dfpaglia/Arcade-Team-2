@@ -15,27 +15,24 @@ public class EnergyFalcon extends Game {
 
 	private Player p;
 	private GenericEnemy e;
-	private PlayerHealth h;
-	int hCount = 4;
-	Wall[] walls;
-
+	private Wall[] walls;
+	
 	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
 	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
-	boolean playing = false;
+	private boolean started = false;
 
 	public EnergyFalcon() {
 
 		p = new Player();
 		e = new GenericEnemy(p);
-		h = new PlayerHealth();
-		walls = new Wall[4]; 
+		walls = new Wall[4];
 		
-		walls[Wall.LEFT_WALL] = new Wall(0,0, 80, Game.HEIGHT); // LEFT WALL
-		walls[Wall.TOP_WALL] = new Wall(0,0,Game.WIDTH, 40); // TOP WALL
-		walls[Wall.RIGHT_WALL] = new Wall(Game.WIDTH - 80, 0, 80, Game.HEIGHT); // RIGHT WALL
-		walls[Wall.BOTTOM_WALL] = new Wall(0, Game.HEIGHT - 80, Game.WIDTH, 80); //BOTTOM WALL
+		walls[Wall.LEFT_WALL] = new Wall(0,0,80, Game.HEIGHT, Wall.LEFT_WALL);
+		walls[Wall.RIGHT_WALL] = new Wall(Wall.RIGHT_WALL_EDGE,0,80, Game.HEIGHT, Wall.RIGHT_WALL);
+		walls[Wall.TOP_WALL] = new Wall(0,0,Game.WIDTH, 40, Wall.TOP_WALL);
+		walls[Wall.BOTTOM_WALL] = new Wall(0,Wall.BOTTOM_WALL_EDGE, Game.WIDTH, 80, Wall.BOTTOM_WALL);
 		
-
+		
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
 			background = ImageIO.read(this.getClass().getResource("ArenaFix.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
@@ -54,31 +51,29 @@ public class EnergyFalcon extends Game {
 
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
-
+		if(!started){
+			init();
+		}
+		
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		graphics.drawImage(background, 0, 0, null);
-		graphics.drawImage(h.healthDraw(), -20, -20, null);
 		p.onTick(input);
 		e.onTick(input);
-		//TODO add a more modular way to check collision
-		if(p.getCollider().collides(e.getCollider())){
-			//TODO add something to do on collision
-		}
-		for(int i = 0;i<walls.length;i++){
-			if(walls[i].getCollision().collides(p.getCollider())){
-				p.collidesWithWall(i);
-			}
-		}
+		
+		CollisionTracker.handleCollisions();
+		
 		p.draw(graphics);
 		e.draw(graphics);
-		if(!playing){
-			noise.stop();
-			clip.loop();
-			playing = true;
-		}
+		
 	}
-
+	
+	private void init(){
+		noise.stop();
+		clip.loop();
+		started = true;
+	}
+	
 	@Override
 	public Image cover() {
 		return cover;

@@ -14,12 +14,43 @@ public class GenericEnemy implements Actor{
 	private Player p;
 	private double x=400, y=250;
 	double speed = 3.0;
-	private BoxCollision collision;
 	private Image enemySprite;
 
+	private class EnemyCollision extends BoxCollision{
+
+		public EnemyCollision(double x, double y, double width, double height) {
+			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION);
+			//Add in this hitbox as a hurtbox as well
+			CollisionTracker.addCollider(this, CollisionType.ENEMY_HURTBOX_COLLISION);
+		}
+
+		public void onCollide(CollisionType t, Object extraData) {
+			switch(t){
+			case PLAYER_HITBOX_COLLISION:
+				//TODO should something happen to this enemy if it collides with the player?
+				break;
+			case PLAYER_HURTBOX_COLLISION:
+				//TODO implement enemy health
+				break;
+			default:
+				break;
+			
+			}
+		}
+		
+		@Override
+		public void destruct(){
+			super.destruct();
+			CollisionTracker.removeCollision(this, CollisionType.ENEMY_HURTBOX_COLLISION);
+		}
+		
+	};
+	
+	private EnemyCollision collision;
+	
 	public GenericEnemy(Player p){
 		this.p = p;
-		collision = new BoxCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT);
+		collision = new EnemyCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT);
 		
 		try {
 			
