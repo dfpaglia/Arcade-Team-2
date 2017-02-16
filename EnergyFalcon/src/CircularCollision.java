@@ -1,18 +1,27 @@
 import java.awt.Graphics2D;
 
-public class CircularCollision implements Collider {
+public abstract class CircularCollision extends Collider {
 
 	double x;
 	double y;
 	double r;
 
-	public CircularCollision(double x, double y, double r) {
+	public CircularCollision(double x, double y, double r, CollisionType type) {
+		super(type);
 		this.x = x;
 		this.y = y;
 		this.r = r;
 
 	}
 
+	public CircularCollision(double x, double y, double r, CollisionType... type) {
+		super(type);
+		this.x = x;
+		this.y = y;
+		this.r = r;
+
+	}
+	
 	@Override
 	public boolean collides(Collider c) {
 		if (c instanceof CircularCollision) {
@@ -92,7 +101,7 @@ public class CircularCollision implements Collider {
 		return r;
 	}
 	
-	void drawCollision(Graphics2D g){
+	public void drawCollision(Graphics2D g){
 		g.drawOval((int)Math.round(x-r), (int)Math.round(y-r), (int)Math.round(2*r), (int)Math.round(2*r));
 	}
 }
