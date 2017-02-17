@@ -22,8 +22,48 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Image playerSprite;
+	private PlayerHealth health;
 	
-	private BoxCollision collision;
+	//Nested collision class for player
+	private class PlayerCollision extends BoxCollision{		
+		public PlayerCollision(double x, double y, double width, double height) {
+			super(x, y, width, height, CollisionType.PLAYER_HITBOX_COLLISION);
+		}
+
+		public void onCollide(CollisionType t, Object extraData) {
+			switch(t){
+				case ENEMY_HURTBOX_COLLISION:
+					health.hurt();
+					break;
+				case WALL_COLLISION:
+					switch((Integer)extraData){
+						case Wall.TOP_WALL:
+							setY(Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2);
+							vel.setY(0);
+							break;
+						case Wall.BOTTOM_WALL:
+							setY(Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT/2 - 1);
+							vel.setY(0);
+							break;
+						case Wall.LEFT_WALL:
+							setX(Wall.LEFT_WALL_EDGE + PLAYER_WIDTH/2);
+							vel.setX(0);
+							break;
+						case Wall.RIGHT_WALL:
+							setX(Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH/2 - 1);
+							vel.setX(0);
+							break;
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		
+	}
+	
+	
+	private PlayerCollision collision;
 	
 	public Player() {
 		try {
@@ -32,7 +72,8 @@ public class Player implements Actor{
 			e.printStackTrace();
 		}
 		
-		collision = new BoxCollision(x - PLAYER_WIDTH/2,y-PLAYER_HEIGHT/2,PLAYER_WIDTH,PLAYER_HEIGHT);
+		collision = new PlayerCollision(x - PLAYER_WIDTH/2,y-PLAYER_HEIGHT/2,PLAYER_WIDTH,PLAYER_HEIGHT);
+		health = new PlayerHealth();
 		
 		vel = new Vector2D(0,0,1);
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
@@ -56,6 +97,14 @@ public class Player implements Actor{
 		return y;
 	}
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
 	// Method that should be called every tick.
 	public void onTick(Input input) {
 		calcNextPos(input);
@@ -72,6 +121,7 @@ public class Player implements Actor{
 
 	public void draw(Graphics2D g) {
 		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+		g.drawImage(health.healthDraw(), 0, 0, null);
 	}
 	
 	
@@ -122,26 +172,5 @@ public class Player implements Actor{
 		//Add velocity to position.
 		x += vel.getX();
 		y += vel.getY();
-	}
-	
-	public void collidesWithWall(int wall){
-		switch(wall){
-			case Wall.TOP_WALL:
-				y = Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2;
-				vel.setY(0);
-				break;
-			case Wall.BOTTOM_WALL:
-				y = Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT/2 - 1;
-				vel.setY(0);
-				break;
-			case Wall.LEFT_WALL:
-				x = Wall.LEFT_WALL_EDGE + PLAYER_WIDTH/2;
-				vel.setX(0);
-				break;
-			case Wall.RIGHT_WALL:
-				x = Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH/2 - 1;
-				vel.setX(0);
-				break;
-		}
 	}
 }

@@ -1,11 +1,20 @@
 import java.awt.Graphics2D;
 
-public class BoxCollision implements Collider {
+public abstract class BoxCollision extends Collider {
 	
 	double x, y;
 	double width, height;
 	
-	public BoxCollision(double x, double y, double width, double height){
+	public BoxCollision(double x, double y, double width, double height, CollisionType type){
+		super(type);
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
+	
+	public BoxCollision(double x, double y, double width, double height, CollisionType... type){
+		super(type);
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -31,7 +40,7 @@ public class BoxCollision implements Collider {
 			if(x11 < x22 && x11 > x21 ){
 				if(y11 < y22 && y11 > y21){
 					return true;
-				}
+				} 
 				if(y12 < y22 && y11 > y21){
 					return true;
 				}
@@ -87,8 +96,7 @@ public class BoxCollision implements Collider {
 		return y;
 	}
 	
-	void drawCollision(Graphics2D g){
+	public void drawCollision(Graphics2D g){
 		g.drawRect((int)Math.round(x), (int)Math.round(y), (int)Math.round(width), (int)Math.round(height));
 	}
-
 }
