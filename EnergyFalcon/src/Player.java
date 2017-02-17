@@ -23,6 +23,7 @@ public class Player implements Actor{
 	private Vector2D vel;
 	private Image playerSprite;
 	private PlayerHealth health;
+	private Direction d;
 	
 	//Nested collision class for player
 	private class PlayerCollision extends BoxCollision{		
@@ -79,6 +80,8 @@ public class Player implements Actor{
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
 		y = Game.HEIGHT / 2;
+		
+		d = Direction.DOWN;
 	}
 
 	public static int getPlayerWidth() {
@@ -172,5 +175,25 @@ public class Player implements Actor{
 		//Add velocity to position.
 		x += vel.getX();
 		y += vel.getY();
+		
+		//TODO keep direction while sword is being swung
+		
+		//Set direction based on velocity
+		double angle = Vector2D.angleBetween(vel, new Vector2D(1,0,1));
+		if(angle < Math.PI/4){
+			d = Direction.RIGHT;
+		}else if(angle < 3*Math.PI/4){
+			//Either up or down
+			if(vel.getY()>0){
+				d = Direction.UP;
+			}else{
+				d = Direction.DOWN;
+			}
+		}else{
+			d = Direction.RIGHT;
+		}
+	}
+	public Direction getDirection(){
+		return d;
 	}
 }
