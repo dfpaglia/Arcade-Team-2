@@ -24,6 +24,7 @@ public class Player implements Actor{
 	private Image playerSprite;
 	private PlayerHealth health;
 	private Direction d;
+	private Sword sword;
 	
 	//Nested collision class for player
 	private class PlayerCollision extends BoxCollision{		
@@ -82,6 +83,7 @@ public class Player implements Actor{
 		y = Game.HEIGHT / 2;
 		
 		d = Direction.DOWN;
+		sword = new Sword();
 	}
 
 	public static int getPlayerWidth() {
@@ -112,6 +114,7 @@ public class Player implements Actor{
 	public void onTick(Input input) {
 		calcNextPos(input);
 		collision.setPos(x - PLAYER_WIDTH/2, y-PLAYER_HEIGHT/2);
+		sword.onTick(input, this);
 	}
 
 
@@ -125,6 +128,7 @@ public class Player implements Actor{
 	public void draw(Graphics2D g) {
 		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
 		g.drawImage(health.healthDraw(), 0, 0, null);
+		sword.draw(g);
 	}
 	
 	
@@ -136,8 +140,10 @@ public class Player implements Actor{
 		
 		if (input.pressed(Button.U)) {
 			vel = Vector2D.add(vel, new Vector2D(0, -ACCEL, 1));
+			d = Direction.UP;
 		}else if (input.pressed(Button.D)) {
 			vel = Vector2D.add(vel, new Vector2D(0, ACCEL, 1));
+			d = Direction.DOWN;
 		}else{
 			//if neither up or down is being pressed, then project the current velocity
 			// onto the y axis and add it to projection
@@ -146,8 +152,10 @@ public class Player implements Actor{
 		
 		if (input.pressed(Button.L)) {
 			vel = Vector2D.add(vel, new Vector2D(-ACCEL, 0, 1));
+			d = Direction.LEFT;
 		}else if (input.pressed(Button.R)) {
 			vel = Vector2D.add(vel, new Vector2D(ACCEL, 0, 1));
+			d = Direction.RIGHT;
 		}else{
 			//if neither left or right is being pressed, then project the current velocity
 			// onto the x axis and add it to projection
@@ -175,23 +183,6 @@ public class Player implements Actor{
 		//Add velocity to position.
 		x += vel.getX();
 		y += vel.getY();
-		
-		//TODO keep direction while sword is being swung
-		
-		//Set direction based on velocity
-		double angle = Vector2D.angleBetween(vel, new Vector2D(1,0,1));
-		if(angle < Math.PI/4){
-			d = Direction.RIGHT;
-		}else if(angle < 3*Math.PI/4){
-			//Either up or down
-			if(vel.getY()>0){
-				d = Direction.UP;
-			}else{
-				d = Direction.DOWN;
-			}
-		}else{
-			d = Direction.RIGHT;
-		}
 	}
 	public Direction getDirection(){
 		return d;
