@@ -17,10 +17,12 @@ public class Player implements Actor{
 	private static final int PLAYER_WIDTH = 75;
 	private static final int PLAYER_HEIGHT = 63;
 	//Max Velocity (magnitude)
-	private static final double V_MAX = 8;
+	private static final double V_MAX = 8.0;
+	private static final double KNOCKBACK_VEL = 15.0;
 	// X Y coordinates, relative to the top left of the screen.
 	private double x, y;
 	private Vector2D vel;
+	private Vector2D knockbackVel;
 	private Image playerSprite;
 	private PlayerHealth health;
 	private Direction d;
@@ -35,7 +37,12 @@ public class Player implements Actor{
 		public void onCollide(CollisionType t, Object extraData) {
 			switch(t){
 				case ENEMY_HURTBOX_COLLISION:
-					health.hurt();
+					GenericEnemy e = (GenericEnemy)extraData;
+					if(health.canBeHurt()){
+						knockbackVel = new Vector2D(Player.this.x - e.getX(), Player.this.y - e.getY(), 1);
+						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), KNOCKBACK_VEL);
+						health.hurt();
+					}
 					break;
 				case WALL_COLLISION:
 					switch((Integer)extraData){
@@ -77,6 +84,7 @@ public class Player implements Actor{
 		collision = new PlayerCollision(x - PLAYER_WIDTH/2,y-PLAYER_HEIGHT/2,PLAYER_WIDTH,PLAYER_HEIGHT);
 		health = new PlayerHealth();
 		
+		knockbackVel = new Vector2D( 0, 0, 1);
 		vel = new Vector2D(0,0,1);
 		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
@@ -180,9 +188,17 @@ public class Player implements Actor{
 		if(vel.magnitude() > V_MAX){
 			vel = Vector2D.scale(Vector2D.unitVector(vel), V_MAX);
 		}
+		//knockback
+		if(knockbackVel.magnitude() < DECCEL){
+			knockbackVel.setX(0);
+			knockbackVel.setY(0);
+		}else{
+			Vector2D knockbackDeccel = Vector2D.scale(Vector2D.unitVector(knockbackVel), -DECCEL);
+			knockbackVel = Vector2D.add(knockbackDeccel, knockbackVel);
+		}
 		//Add velocity to position.
-		x += vel.getX();
-		y += vel.getY();
+		x += vel.getX() + knockbackVel.getX();
+		y += vel.getY() + knockbackVel.getY();
 	}
 	public Direction getDirection(){
 		return d;

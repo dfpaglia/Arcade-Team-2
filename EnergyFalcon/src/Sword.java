@@ -18,15 +18,15 @@ public class Sword {
 	private double lastY;
 	
 	private class SwordHurtbox extends CircularCollision{
-		public SwordHurtbox(double x, double y, double r){
+		public SwordHurtbox(double x, double y, double r, Player p){
 			super(x,y,r,CollisionType.PLAYER_HURTBOX_COLLISION);
+			CollisionTracker.addData(this, p);
 		}
 		
 		void onCollide(CollisionType t, Object extraData) {
 			switch(t){
 			case ENEMY_HITBOX_COLLISION:
-				//TODO add enemy hurt code here
-				System.out.println("Hit an enemy");
+				//TODO add stuff that happens to this sword or player?
 				break;
 			default:
 				break;
@@ -45,16 +45,16 @@ public class Sword {
 			endDelay = endSwing + SWORD_DELAY_DELTA;
 			switch(p.getDirection()){
 				case DOWN:
-					hurtbox = new SwordHurtbox(p.getX(), p.getY() + Player.getPlayerHeight()/2, SWORD_RADIUS);
+					hurtbox = new SwordHurtbox(p.getX(), p.getY() + Player.getPlayerHeight()/2, SWORD_RADIUS, p);
 					break;
 				case LEFT:
-					hurtbox = new SwordHurtbox(p.getX() - Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS);
+					hurtbox = new SwordHurtbox(p.getX() - Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS, p);
 					break;
 				case RIGHT:
-					hurtbox = new SwordHurtbox(p.getX() + Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS);
+					hurtbox = new SwordHurtbox(p.getX() + Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS, p);
 					break;
 				case UP:
-					hurtbox = new SwordHurtbox(p.getX(), p.getY() - Player.getPlayerHeight()/2, SWORD_RADIUS);
+					hurtbox = new SwordHurtbox(p.getX(), p.getY() - Player.getPlayerHeight()/2, SWORD_RADIUS, p);
 					break;
 			}
 			lastY = p.getY();

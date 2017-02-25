@@ -55,6 +55,9 @@ public class Vector2D {
 	public double magnitude(){
 		return Math.sqrt(dotProduct(this,this));
 	}
+	public String toString(){
+		return "< " + x + ", " + y + ", " + z + ">";
+	}
 	//Gives a vector in the same direction of a such that it's lenght is 1
 	public static Vector2D unitVector(Vector2D a){
 		double mag = a.magnitude();

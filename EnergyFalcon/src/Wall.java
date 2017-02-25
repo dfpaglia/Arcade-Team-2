@@ -16,6 +16,7 @@ public class Wall extends BoxCollision{
 	public Wall(double x, double y, double width, double height, int wall){
 		super(x,y,width,height, CollisionType.WALL_COLLISION);
 		this.wall = wall;
+		CollisionTracker.addData(this, wall);
 	}
 	
 	public int getWall(){

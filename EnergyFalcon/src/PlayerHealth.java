@@ -40,6 +40,14 @@ public class PlayerHealth {
 		}
 	}
 	
+	public boolean canBeHurt(){
+		hitTime = System.nanoTime();
+		if(hitTime >= hitTimeCeiling){
+			return true;
+		}
+		return false;
+	}
+	
 	public Image healthDraw(){
 		
 		switch(health){
