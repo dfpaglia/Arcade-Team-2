@@ -12,7 +12,7 @@ public class GenericEnemy implements Actor{
 	private static final double ENEMY_KNOCKBACK_VEL = 15.0;
 	private static final double ENEMY_MAX_SPEED = 3.0;
 	private static final double ENEMY_ACCEL = 3.0;
-	private static final double ENEMY_KNOCKBACK_DECCEL = 0.5;
+	private static final double ENEMY_KNOCKBACK_DECCEL = 1.0;
 	
 	private Player p;
 	private double x=400, y=250;

@@ -65,7 +65,6 @@ public class EnergyFalcon extends Game {
 		
 		p.draw(graphics);
 		e.draw(graphics);
-		graphics.drawLine((int)e.getX(), (int)e.getY(), (int)p.getX(), (int)p.getY());
 	}
 	
 	private void init(){
