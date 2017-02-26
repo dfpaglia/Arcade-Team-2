@@ -5,8 +5,8 @@ import arcadia.Input;
 
 public class Sword {
 	private static final long SWORD_SWING_DELTA = 500000000L;
-	private static final long SWORD_DELAY_DELTA = 250000000L;
-	private static final double SWORD_RADIUS = 40;
+	private static final long SWORD_DELAY_DELTA = 300000000L;
+	private static final double SWORD_RADIUS = 25;
 	
 	private boolean isSwinging = false;
 	private boolean canSwing = true;
