@@ -22,7 +22,13 @@ public class EnemyHealth {
 		health = h;
 	}
 	
-	
+	public boolean canBeHurt(){
+		hitTime = System.nanoTime();
+		if(hitTime >= hitTimeCeiling){
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

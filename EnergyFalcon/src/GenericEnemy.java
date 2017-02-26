@@ -35,10 +35,11 @@ public class GenericEnemy implements Actor{
 				break;
 			case PLAYER_HURTBOX_COLLISION:
 				Player p = (Player)extraData;
-				//TODO implement enemy health
-				//knockback
-				knockbackVel = new Vector2D(GenericEnemy.this.x - p.getX(), GenericEnemy.this.y - p.getY(), 1);
-				knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
+				if(h.canBeHurt()){
+					knockbackVel = new Vector2D(GenericEnemy.this.x - p.getX(), GenericEnemy.this.y - p.getY(), 1);
+					knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
+					h.hurt();
+				}
 				break;
 			case WALL_COLLISION:
 				switch((Integer)extraData){
