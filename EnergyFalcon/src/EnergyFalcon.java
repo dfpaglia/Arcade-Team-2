@@ -15,6 +15,7 @@ public class EnergyFalcon extends Game {
 
 	private Player p;
 	private GenericEnemy e;
+	private GameMaster game;
 	private Wall[] walls;
 	
 	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
@@ -25,6 +26,7 @@ public class EnergyFalcon extends Game {
 
 		p = new Player();
 		e = new GenericEnemy(p);
+		game = new GameMaster(p, e);
 		walls = new Wall[4];
 		
 		walls[Wall.LEFT_WALL] = new Wall(0,0,80, Game.HEIGHT, Wall.LEFT_WALL);
@@ -44,9 +46,7 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
-
-		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon() }));
-
+		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
 	@Override
@@ -65,6 +65,9 @@ public class EnergyFalcon extends Game {
 		
 		p.draw(graphics);
 		e.draw(graphics);
+
+		game.draw(graphics);
+
 	}
 	
 	private void init(){

@@ -19,6 +19,7 @@ public class GenericEnemy implements Actor{
 	private Vector2D vel;
 	private Vector2D knockbackVel;
 	private Image enemySprite;
+	private EnemyHealth h;
 
 	private class EnemyCollision extends BoxCollision{
 
@@ -70,10 +71,12 @@ public class GenericEnemy implements Actor{
 	private EnemyCollision collision;
 	
 	public GenericEnemy(Player p){
+		//h = new EnemyHealth
 		this.p = p;
 		collision = new EnemyCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
 		knockbackVel = new Vector2D(0, 0, 1);
+		h = new EnemyHealth(2);
 		try {
 			
 			enemySprite = ImageIO.read(this.getClass().getResource("EnemyTest1.png"));
@@ -108,12 +111,16 @@ public class GenericEnemy implements Actor{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(enemySprite, (int)Math.round(x - (ENEMY_WIDTH/2)), (int)Math.round(y - (ENEMY_HEIGHT/2)), null);
+			g.drawImage(enemySprite, (int)Math.round(x - (ENEMY_WIDTH/2)), (int)Math.round(y - (ENEMY_HEIGHT/2)), null);
 	}
 
 	@Override
 	public Collider getCollider() {
 		return collision;
+	}
+	
+	public int getEnemyHealth(){
+		return h.getEnemyHealth();
 	}
 
 	public double getX() {
