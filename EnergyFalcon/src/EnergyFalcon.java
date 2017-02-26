@@ -74,7 +74,6 @@ public class EnergyFalcon extends Game {
 		started = true;
 	}
 	
-	@Override
 	public Image cover() {
 		return cover;
 	}
