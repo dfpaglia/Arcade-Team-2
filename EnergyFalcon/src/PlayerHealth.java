@@ -3,14 +3,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import arcadia.Game;
+
 
 public class PlayerHealth {
 
 	private static final long HIT_TIME_DELTA = 1000000000L; //Wait 1 second between hits
 	
 	private Image[] playerHealthSprite = new Image[4];
-	private Image endImage;
 	private int scalar = 124;
 	public int health = 4;
 	public int healthCeiling = 4;
