@@ -46,7 +46,7 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
-		Arcadia.display(new Arcadia(new EnergyFalcon()));
+		Arcadia.display(new Arcadia(new Game[]{new EnergyFalcon()}));
 	}
 
 	@Override
