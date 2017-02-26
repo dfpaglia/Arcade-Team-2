@@ -6,13 +6,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import arcadia.Arcadia;
+import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
 
 public class EnergyFalcon extends Game {
 	Image cover, background;
-
+	private GameState state = GameState.START;
 	private Player p;
 	private GenericEnemy e;
 	private GameMaster game;
@@ -46,28 +47,44 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
-		Arcadia.display(new Arcadia(new Game[]{new EnergyFalcon()}));
+		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
-		if(!started){
-			init();
+		switch(state){
+		case START:
+			graphics.drawImage(cover, 0, 0, null);
+			if(input.pressed(Button.A)){
+				state = GameState.PLAY;
+			}
+			break;
+		case PLAY:
+			if(!started){
+				init();
+			}
+			
+			graphics.setColor(Color.black);
+			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			graphics.drawImage(background, 0, 0, null);
+			p.onTick(input);
+			e.onTick(input);
+			
+			CollisionTracker.handleCollisions();
+			
+			p.draw(graphics);
+			e.draw(graphics);
+
+			game.draw(graphics);
+			break;
+		case DEFEAT:
+			break;
+		case VICTORY:
+			break;
+		default:
+			break;
+		
 		}
-		
-		graphics.setColor(Color.black);
-		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		graphics.drawImage(background, 0, 0, null);
-		p.onTick(input);
-		e.onTick(input);
-		
-		CollisionTracker.handleCollisions();
-		
-		p.draw(graphics);
-		e.draw(graphics);
-
-		game.draw(graphics);
-
 	}
 	
 	private void init(){
