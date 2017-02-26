@@ -46,10 +46,7 @@ public class EnergyFalcon extends Game {
 	}
 
 	public static void main(String[] args) {
-
-		Arcadia.display(new Arcadia(new Game[] { new EnergyFalcon() }));
-		System.out.println(Game.WIDTH + " " + Game.HEIGHT);
-
+		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
 	@Override
@@ -68,8 +65,9 @@ public class EnergyFalcon extends Game {
 		
 		p.draw(graphics);
 		e.draw(graphics);
+
 		game.draw(graphics);
-		
+
 	}
 	
 	private void init(){
