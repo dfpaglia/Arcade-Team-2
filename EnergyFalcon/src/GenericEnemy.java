@@ -14,6 +14,7 @@ public class GenericEnemy implements Actor{
 	private double x=400, y=250;
 	double speed = 3.0;
 	private Image enemySprite;
+	private EnemyHealth h;
 
 	private class EnemyCollision extends BoxCollision{
 
@@ -40,7 +41,9 @@ public class GenericEnemy implements Actor{
 	private EnemyCollision collision;
 	
 	public GenericEnemy(Player p){
+		//h = new EnemyHealth
 		this.p = p;
+		h = new EnemyHealth(2);
 		collision = new EnemyCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT);
 		
 		try {
@@ -71,12 +74,16 @@ public class GenericEnemy implements Actor{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(enemySprite, (int)Math.round(x - (ENEMY_WIDTH/2)), (int)Math.round(y - (ENEMY_HEIGHT/2)), null);
+			g.drawImage(enemySprite, (int)Math.round(x - (ENEMY_WIDTH/2)), (int)Math.round(y - (ENEMY_HEIGHT/2)), null);
 	}
 
 	@Override
 	public Collider getCollider() {
 		return collision;
+	}
+	
+	public int getEnemyHealth(){
+		return h.getEnemyHealth();
 	}
 
 	public double getX() {

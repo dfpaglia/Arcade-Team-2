@@ -91,6 +91,10 @@ public class Player implements Actor{
 	public static int getPlayerHeight() {
 		return PLAYER_HEIGHT;
 	}
+	
+	public int getPlayerHealth(){
+		return health.getPlayerHealth();
+	}
 
 	public double getX() {
 		return x;
