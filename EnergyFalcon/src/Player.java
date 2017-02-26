@@ -18,7 +18,7 @@ public class Player implements Actor{
 	private static final int PLAYER_HEIGHT = 63;
 	//Max Velocity (magnitude)
 	private static final double V_MAX = 8.0;
-	private static final double KNOCKBACK_VEL = 15.0;
+	private static final double KNOCKBACK_VEL = 10.0;
 	// X Y coordinates, relative to the top left of the screen.
 	private double x, y;
 	private Vector2D vel;

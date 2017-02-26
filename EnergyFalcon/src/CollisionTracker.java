@@ -55,6 +55,12 @@ public class CollisionTracker {
 				playerHitbox.onCollide(CollisionType.WALL_COLLISION, extraData.get(w));
 				w.onCollide(CollisionType.PLAYER_HITBOX_COLLISION, extraData.get(playerHitbox));
 			}
+			for(Collider e : enemyHitboxes){
+				if(w.collides(e)){
+					e.onCollide(CollisionType.WALL_COLLISION, extraData.get(w));
+					w.onCollide(CollisionType.ENEMY_HITBOX_COLLISION, extraData.get(e));
+				}
+			}
 		}
 		//check all player hurtbox with every enemy hitbox
 		for(Collider c : playerHurtboxes){

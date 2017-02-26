@@ -9,7 +9,7 @@ import arcadia.Input;
 public class GenericEnemy implements Actor{
 	private static final int ENEMY_WIDTH=75;
 	private static final int ENEMY_HEIGHT=63;
-	private static final double ENEMY_KNOCKBACK_VEL = 15.0;
+	private static final double ENEMY_KNOCKBACK_VEL = 10.0;
 	private static final double ENEMY_MAX_SPEED = 3.0;
 	private static final double ENEMY_ACCEL = 3.0;
 	private static final double ENEMY_KNOCKBACK_DECCEL = 1.0;
@@ -38,6 +38,26 @@ public class GenericEnemy implements Actor{
 				//knockback
 				knockbackVel = new Vector2D(GenericEnemy.this.x - p.getX(), GenericEnemy.this.y - p.getY(), 1);
 				knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
+				break;
+			case WALL_COLLISION:
+				switch((Integer)extraData){
+					case Wall.TOP_WALL:
+						GenericEnemy.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT/2;
+						vel.setY(0);
+						break;
+					case Wall.BOTTOM_WALL:
+						GenericEnemy.this.y = Wall.BOTTOM_WALL_EDGE - ENEMY_HEIGHT/2 - 1;
+						vel.setY(0);
+						break;
+					case Wall.LEFT_WALL:
+						GenericEnemy.this.x = Wall.LEFT_WALL_EDGE + ENEMY_WIDTH/2;
+						vel.setX(0);
+						break;
+					case Wall.RIGHT_WALL:
+						GenericEnemy.this.x = Wall.RIGHT_WALL_EDGE - ENEMY_WIDTH/2 - 1;
+						vel.setX(0);
+						break;
+				}
 				break;
 			default:
 				break;
