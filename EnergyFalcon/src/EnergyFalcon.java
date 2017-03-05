@@ -15,6 +15,7 @@ public class EnergyFalcon extends Game {
 
 	private Player p;
 	private GenericEnemy e;
+	private Wizard w;
 	private GameMaster game;
 	private Wall[] walls;
 	
@@ -26,6 +27,7 @@ public class EnergyFalcon extends Game {
 
 		p = new Player();
 		e = new GenericEnemy(p);
+		w = new Wizard(p);
 		game = new GameMaster(p, e);
 		walls = new Wall[4];
 		
@@ -60,12 +62,14 @@ public class EnergyFalcon extends Game {
 		graphics.drawImage(background, 0, 0, null);
 		p.onTick(input);
 		e.onTick(input);
+		w.onTick(input);
 		
 		CollisionTracker.handleCollisions();
 		
 		p.draw(graphics);
 		e.draw(graphics);
-
+		w.draw(graphics);
+		
 		game.draw(graphics);
 
 	}

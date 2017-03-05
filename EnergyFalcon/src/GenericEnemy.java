@@ -25,24 +25,22 @@ public class GenericEnemy implements Actor{
 
 		public EnemyCollision(double x, double y, double width, double height, GenericEnemy e) {
 			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION, CollisionType.ENEMY_HURTBOX_COLLISION);
-			CollisionTracker.addData(this, e);
 		}
 
-		public void onCollide(CollisionType t, Object extraData) {
+		public void onCollide(CollisionType t, CollisionData extraData) {
 			switch(t){
 			case PLAYER_HITBOX_COLLISION:
 				//TODO should something happen to this enemy if it collides with the player?
 				break;
 			case PLAYER_HURTBOX_COLLISION:
-				Player p = (Player)extraData;
 				if(h.canBeHurt()){
-					knockbackVel = new Vector2D(GenericEnemy.this.x - p.getX(), GenericEnemy.this.y - p.getY(), 1);
+					knockbackVel = new Vector2D(GenericEnemy.this.x - extraData.getX() - (extraData.getWidth()/2), GenericEnemy.this.y - extraData.getY() - (extraData.getWidth()/2), 1);
 					knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
 					h.hurt();
 				}
 				break;
 			case WALL_COLLISION:
-				switch((Integer)extraData){
+				switch(extraData.getWall()){
 					case Wall.TOP_WALL:
 						GenericEnemy.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT/2;
 						vel.setY(0);
@@ -65,6 +63,11 @@ public class GenericEnemy implements Actor{
 				break;
 			
 			}
+		}
+
+		@Override
+		CollisionData getCollisionData() {
+			return new CollisionData(this, h, EnemyType.GENERIC_ENEMY);
 		}
 		
 	};

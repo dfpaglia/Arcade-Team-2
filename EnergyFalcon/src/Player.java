@@ -34,18 +34,17 @@ public class Player implements Actor{
 			super(x, y, width, height, CollisionType.PLAYER_HITBOX_COLLISION);
 		}
 
-		public void onCollide(CollisionType t, Object extraData) {
+		public void onCollide(CollisionType t, CollisionData extraData) {
 			switch(t){
 				case ENEMY_HURTBOX_COLLISION:
-					GenericEnemy e = (GenericEnemy)extraData;
 					if(health.canBeHurt()){
-						knockbackVel = new Vector2D(Player.this.x - e.getX(), Player.this.y - e.getY(), 1);
+						knockbackVel = new Vector2D(Player.this.x - extraData.getX() - (extraData.getWidth()/2), Player.this.y - extraData.getY() - (extraData.getHeight()/2), 1);
 						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), KNOCKBACK_VEL);
 						health.hurt();
 					}
 					break;
 				case WALL_COLLISION:
-					switch((Integer)extraData){
+					switch(extraData.getWall()){
 						case Wall.TOP_WALL:
 							setY(Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2);
 							vel.setY(0);
@@ -67,6 +66,11 @@ public class Player implements Actor{
 				default:
 					break;
 			}
+		}
+
+		@Override
+		CollisionData getCollisionData() {
+			return new CollisionData(this, health);
 		}
 		
 	}
