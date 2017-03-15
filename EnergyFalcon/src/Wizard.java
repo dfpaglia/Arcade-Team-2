@@ -37,11 +37,11 @@ public class Wizard implements Actor {
 			case HURTBOX_GENERAL:
 				break;
 			case PLAYER_HITBOX_COLLISION:
+				break;
+			case PLAYER_HURTBOX_COLLISION:
 				if(health.canBeHurt()){
 					health.hurt();
 				}
-				break;
-			case PLAYER_HURTBOX_COLLISION:
 				break;
 			case WALL_COLLISION:
 				break;
@@ -114,7 +114,9 @@ public class Wizard implements Actor {
 				itFire.remove();
 			}
 		}
-		//TODO add the new fireball after the update
+		if(health.getEnemyHealth() <= 0){
+			System.out.println("dead");
+		}
 	}
 
 	@Override
