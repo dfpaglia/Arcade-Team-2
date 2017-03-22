@@ -16,8 +16,8 @@ public class EnergyFalcon extends Game {
 	private GameState state = GameState.START;
 	private Player p;
 	private GenericEnemy e;
-	private GameMaster game;
 	private Wall[] walls;
+	private Image win, lose;
 	
 	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
 	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
@@ -27,7 +27,6 @@ public class EnergyFalcon extends Game {
 
 		p = new Player();
 		e = new GenericEnemy(p);
-		game = new GameMaster(p, e);
 		walls = new Wall[4];
 		
 		walls[Wall.LEFT_WALL] = new Wall(0,0,80, Game.HEIGHT, Wall.LEFT_WALL);
@@ -37,8 +36,10 @@ public class EnergyFalcon extends Game {
 		
 		
 		try {
-			cover = ImageIO.read(this.getClass().getResource("cover.jpg"));
+			cover = ImageIO.read(this.getClass().getResource("cover.png"));
 			background = ImageIO.read(this.getClass().getResource("ArenaFix.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
+			win = ImageIO.read(this.getClass().getResource("Victory Screen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
+			lose = ImageIO.read(this.getClass().getResource("Defeat Screen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,19 +75,26 @@ public class EnergyFalcon extends Game {
 			
 			p.draw(graphics);
 			e.draw(graphics);
-
-			game.draw(graphics);
+			
+			
+			if(p.getPlayerHealth() <= 0){
+				state = GameState.DEFEAT;
+			}
+			
+			if(e.getEnemyHealth() <= 0){
+				state = GameState.VICTORY;
+			}
 			break;
 		case DEFEAT:
+			graphics.drawImage(lose,0,0,null);
 			break;
 		case VICTORY:
+			graphics.drawImage(win,0,0,null);
 			break;
 		default:
 			break;
-		
 		}
-	}
-	
+		}
 	private void init(){
 		noise.stop();
 		clip.loop();
