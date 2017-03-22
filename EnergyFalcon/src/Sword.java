@@ -26,11 +26,9 @@ public class Sword {
 		void onCollide(CollisionType t, Object extraData) {
 			switch(t){
 			case ENEMY_HITBOX_COLLISION:
-				//TODO add stuff that happens to this sword or player?
 				break;
 			default:
 				break;
-			
 			}
 		}
 	}

@@ -51,7 +51,6 @@ public class EnergyFalcon extends Game {
 		Arcadia.display(new Arcadia(new EnergyFalcon()));
 	}
 
-	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
 		switch(state){
 		case START:
@@ -95,6 +94,7 @@ public class EnergyFalcon extends Game {
 			break;
 		}
 		}
+	
 	private void init(){
 		noise.stop();
 		clip.loop();

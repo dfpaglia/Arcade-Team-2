@@ -128,21 +128,16 @@ public class Player implements Actor{
 		collision.setPos(x - PLAYER_WIDTH/2, y-PLAYER_HEIGHT/2);
 		sword.onTick(input, this);
 	}
-
-
-
 	
 	public Collider getCollider(){
 		return collision;
 	}
-
 
 	public void draw(Graphics2D g) {
 		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);
 	}
-	
 	
 	private void calcNextPos(Input input){
 		//This vector will represent the current velocity

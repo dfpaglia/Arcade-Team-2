@@ -31,7 +31,6 @@ public class GenericEnemy implements Actor{
 		public void onCollide(CollisionType t, Object extraData) {
 			switch(t){
 			case PLAYER_HITBOX_COLLISION:
-				//TODO should something happen to this enemy if it collides with the player?
 				break;
 			case PLAYER_HURTBOX_COLLISION:
 				Player p = (Player)extraData;
@@ -72,7 +71,6 @@ public class GenericEnemy implements Actor{
 	private EnemyCollision collision;
 	
 	public GenericEnemy(Player p){
-		//h = new EnemyHealth
 		this.p = p;
 		collision = new EnemyCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
@@ -86,8 +84,7 @@ public class GenericEnemy implements Actor{
 			e.printStackTrace();
 		}
 	}
-	
-	@Override
+
 	public void onTick(Input input) {
 		Vector2D accel = new Vector2D(p.getX() - x, p.getY() - y, 1);
 		accel = Vector2D.unitVector(accel);
@@ -97,7 +94,7 @@ public class GenericEnemy implements Actor{
 			vel = Vector2D.unitVector(vel);
 			vel = Vector2D.scale(vel, ENEMY_MAX_SPEED);
 		}
-		//knockback
+		//knock back
 		if(knockbackVel.magnitude() < ENEMY_KNOCKBACK_DECCEL){
 			knockbackVel.setX(0);
 			knockbackVel.setY(0);
@@ -110,12 +107,10 @@ public class GenericEnemy implements Actor{
 		collision.setPos(x-ENEMY_WIDTH/2, y-ENEMY_HEIGHT/2);
 	}
 
-	@Override
 	public void draw(Graphics2D g) {
 			g.drawImage(enemySprite, (int)Math.round(x - (ENEMY_WIDTH/2)), (int)Math.round(y - (ENEMY_HEIGHT/2)), null);
 	}
 
-	@Override
 	public Collider getCollider() {
 		return collision;
 	}

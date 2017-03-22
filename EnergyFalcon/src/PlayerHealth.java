@@ -16,7 +16,6 @@ public class PlayerHealth {
 	public long hitTime = 0;
 	public long hitTimeCeiling = 0;
 	
-	
 	public PlayerHealth(){
 	
 		try {
@@ -72,9 +71,7 @@ public class PlayerHealth {
 			return null;
 		default:
 			return null;
-		}
-		
-		
+		}		
 	}
 }
 	

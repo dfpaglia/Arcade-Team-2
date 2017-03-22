@@ -24,6 +24,6 @@ public class Wall extends BoxCollision{
 	}
 
 	public void onCollide(CollisionType t, Object extraData) {
-		//TODO add stuff here if you want
+	
 	}
 }

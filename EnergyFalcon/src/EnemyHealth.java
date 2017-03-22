@@ -29,6 +29,4 @@ public class EnemyHealth {
 		}
 		return false;
 	}
-	
-	
 }
