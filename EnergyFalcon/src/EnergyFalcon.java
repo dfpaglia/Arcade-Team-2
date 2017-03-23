@@ -14,10 +14,9 @@ public class EnergyFalcon extends Game {
 	Image cover, background;
 
 	private Player p;
-	private GenericEnemy e;
-	private Wizard w;
 	private GameMaster game;
 	private Wall[] walls;
+	SpawnTracker spawn;
 	
 	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
 	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
@@ -26,10 +25,9 @@ public class EnergyFalcon extends Game {
 	public EnergyFalcon() {
 
 		p = new Player();
-		e = new GenericEnemy(p);
-		w = new Wizard(p);
-		game = new GameMaster(p, e);
+		//game = new GameMaster(p, e);
 		walls = new Wall[4];
+		spawn = new SpawnTracker(p);
 		
 		walls[Wall.LEFT_WALL] = new Wall(0,0,80, Game.HEIGHT, Wall.LEFT_WALL);
 		walls[Wall.RIGHT_WALL] = new Wall(Wall.RIGHT_WALL_EDGE,0,80, Game.HEIGHT, Wall.RIGHT_WALL);
@@ -61,16 +59,14 @@ public class EnergyFalcon extends Game {
 		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		graphics.drawImage(background, 0, 0, null);
 		p.onTick(input);
-		e.onTick(input);
-		w.onTick(input);
+		spawn.onTick(input);
 		
 		CollisionTracker.handleCollisions();
 		
 		p.draw(graphics);
-		e.draw(graphics);
-		w.draw(graphics);
+		spawn.draw(graphics);
 		
-		game.draw(graphics);
+		//game.draw(graphics);
 
 	}
 	

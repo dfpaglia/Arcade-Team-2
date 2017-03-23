@@ -1,9 +1,7 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
@@ -81,6 +79,7 @@ public class Player implements Actor{
 	public Player() {
 		try {
 			playerSprite = ImageIO.read(this.getClass().getResource("FighterTest1.png"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

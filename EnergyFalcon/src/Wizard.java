@@ -7,7 +7,7 @@ import java.util.Random;
 import arcadia.Game;
 import arcadia.Input;
 
-public class Wizard implements Actor {
+public class Wizard extends Enemy {
 	private static final int ENEMY_WIDTH=75;
 	private static final int ENEMY_HEIGHT=63;
 	private static final int ENEMY_HEALTH = 3;
@@ -18,10 +18,10 @@ public class Wizard implements Actor {
 	
 	private double x, y;
 	private boolean isVisible = false;
+	private boolean isEnabled = true;
 	private long appearTime=0, teleTime = 0, fireTime = 0; 
 	private EnemyHealth health = new EnemyHealth(ENEMY_HEALTH);
 	private ArrayList<Fireball> fire;
-	private Player p;
 	
 	private class WizardCollider extends BoxCollision{
 		public WizardCollider(double x, double y, double width, double height) {
@@ -29,25 +29,27 @@ public class Wizard implements Actor {
 		}
 
 		void onCollide(CollisionType t, CollisionData extraData) {
-			switch(t){
-			case ENEMY_HITBOX_COLLISION:
-				break;
-			case ENEMY_HURTBOX_COLLISION:
-				break;
-			case HURTBOX_GENERAL:
-				break;
-			case PLAYER_HITBOX_COLLISION:
-				break;
-			case PLAYER_HURTBOX_COLLISION:
-				if(health.canBeHurt()){
-					health.hurt();
+			if(isEnabled){
+				switch(t){
+				case ENEMY_HITBOX_COLLISION:
+					break;
+				case ENEMY_HURTBOX_COLLISION:
+					break;
+				case HURTBOX_GENERAL:
+					break;
+				case PLAYER_HITBOX_COLLISION:
+					break;
+				case PLAYER_HURTBOX_COLLISION:
+					if(health.canBeHurt()){
+						health.hurt();
+					}
+					break;
+				case WALL_COLLISION:
+					break;
+				default:
+					break;
+				
 				}
-				break;
-			case WALL_COLLISION:
-				break;
-			default:
-				break;
-			
 			}
 		}
 
@@ -59,8 +61,8 @@ public class Wizard implements Actor {
 	private WizardCollider c = null;
 	
 	public Wizard(Player p){
+		super(p);
 		long curTime = System.nanoTime();
-		this.p = p;
 		appearTime = curTime;
 		fireTime = curTime + FIREBALL_WAIT;
 		teleTime = curTime + TELEPORT_COOLDOWN;
@@ -70,6 +72,8 @@ public class Wizard implements Actor {
 	@Override
 	public void onTick(Input input) {
 		long curTime = System.nanoTime();
+		if(!isEnabled) return;
+		
 		if(curTime >= appearTime){
 			WizardCollider c = null;
 			//TODO make sure that the seed is selected and not some default value
@@ -136,4 +140,30 @@ public class Wizard implements Actor {
 		return c;
 	}
 
+	@Override
+	public boolean isDead() {
+		return health.getEnemyHealth() <= 0;
+	}
+
+	@Override
+	public void destruct() {
+		c.destruct();
+		Iterator<Fireball> itFire = fire.iterator();
+		Fireball f;
+		while(itFire.hasNext()){
+			f = itFire.next();
+			f.destruct();
+			itFire.remove();
+		}
+	}
+
+	@Override
+	public void disableEnemy() {
+		isEnabled = false;
+	}
+
+	@Override
+	public void enableEnemy() {
+		isEnabled = true;
+	}
 }

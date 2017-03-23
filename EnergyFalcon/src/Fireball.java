@@ -64,7 +64,7 @@ public class Fireball {
 			}
 		}
 		if(shouldDestruct){
-			c.destruct();
+			this.destruct();
 			shouldDestruct = false;
 		}
 	}
@@ -77,5 +77,9 @@ public class Fireball {
 	
 	public boolean shouldDelete(){
 		return shouldDelete;
+	}
+	
+	public void destruct(){
+		c.destruct();
 	}
 }
