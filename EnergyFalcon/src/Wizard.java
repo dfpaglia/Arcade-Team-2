@@ -12,13 +12,11 @@ public class Wizard extends Enemy {
 	private static final int ENEMY_HEIGHT=63;
 	private static final int ENEMY_HEALTH = 3;
 	
-	private static final long TELEPORT_COOLDOWN = 5000000000L; // Time between teleports. 5 seconds
-	private static final long TELEPORT_TIME = 1000000000L; //Time the wizard is gone between teleports. 1 second
-	private static final long FIREBALL_WAIT = 300000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
+	private static final long FIREBALL_WAIT = 1800000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
 	
 	private boolean isVisible = true;
 	private boolean isEnabled = true;
-	private long appearTime=0, teleTime = 0, fireTime = 0; 
+	private long fireTime = 0; 
 	private EnemyHealth health = new EnemyHealth(ENEMY_HEALTH);
 	private ArrayList<Fireball> fire;
 	
@@ -62,10 +60,9 @@ public class Wizard extends Enemy {
 	public Wizard(Player p){
 		super(p, 0, 0);
 		long curTime = System.nanoTime();
-		appearTime = curTime;
 		fireTime = curTime + FIREBALL_WAIT;
-		teleTime = curTime + TELEPORT_COOLDOWN;
 		fire = new ArrayList<Fireball>();
+		c = new WizardCollider(x, y, ENEMY_WIDTH, ENEMY_HEIGHT);
 	}
 	
 	@Override
@@ -73,39 +70,12 @@ public class Wizard extends Enemy {
 		long curTime = System.nanoTime();
 		if(!isEnabled) return;
 		
-		if(curTime >= appearTime){
-			WizardCollider c = null;
-			//TODO make sure that the seed is selected and not some default value
-			Random r = new Random();
-			isVisible = true;
-			do{
-				if(c!=null){
-					c.destruct();
-					c = null;
-				}
-				x = r.nextInt((int)(Game.WIDTH - Wall.LEFT_WALL_EDGE - (Game.WIDTH - Wall.RIGHT_WALL_EDGE) - ENEMY_WIDTH)) + Wall.LEFT_WALL_EDGE;
-				y = r.nextInt((int)(Game.HEIGHT - Wall.TOP_WALL_EDGE - (Game.HEIGHT - Wall.BOTTOM_WALL_EDGE) - ENEMY_HEIGHT)) + Wall.TOP_WALL_EDGE;
-				c = new WizardCollider(x, y, ENEMY_WIDTH, ENEMY_HEIGHT);
-			}while(c.collides(p.getCollider()));
-			this.c = c;
-			x+=(ENEMY_WIDTH/2);
-			y+=(ENEMY_HEIGHT/2);
-			appearTime = Long.MAX_VALUE;
-		}
+		c.setPos(Math.floor(x - ENEMY_WIDTH/2), Math.floor(y - ENEMY_HEIGHT/2));
+		
 		if(curTime >= fireTime){
 			//Cast fireball
 			fire.add(new Fireball(x, y, new Vector2D(p.getX()  - x, p.getY() - y, 1)));
-			fireTime = Long.MAX_VALUE;
-		}
-		
-		if(curTime >= teleTime){
-			//recalculate times, make invisible, remove the collider.
-			appearTime = curTime + TELEPORT_TIME;
-			fireTime = appearTime + FIREBALL_WAIT;
-			teleTime = appearTime + TELEPORT_COOLDOWN;
-			isVisible = false;
-			c.destruct();
-			c = null;
+			fireTime = curTime + FIREBALL_WAIT;
 		}
 		//Update all fireballs, delete ones marked for deletion.
 		Iterator<Fireball> itFire = fire.iterator();
@@ -117,17 +87,15 @@ public class Wizard extends Enemy {
 				itFire.remove();
 			}
 		}
-		if(health.getEnemyHealth() <= 0){
-			System.out.println("dead");
-		}
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		if(isVisible){
 			g.setColor(Color.CYAN);
-			g.fillRect((int)(x - (ENEMY_WIDTH/2)), (int)(y - (ENEMY_HEIGHT/2)), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
+			g.fillRect((int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
 		}
+		c.drawCollision(g);
 		g.setColor(Color.red);
 		for(Fireball f : fire){
 			f.draw(g);

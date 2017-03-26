@@ -110,8 +110,8 @@ public class GenericEnemy extends Enemy{
 			Vector2D knockBackDeccel = Vector2D.scale(Vector2D.unitVector(knockbackVel), -ENEMY_KNOCKBACK_DECCEL);
 			knockbackVel = Vector2D.add(knockbackVel, knockBackDeccel);
 		}
-		//x += vel.getX() + knockbackVel.getX();
-		//y += vel.getY() + knockbackVel.getY();
+		x += vel.getX() + knockbackVel.getX();
+		y += vel.getY() + knockbackVel.getY();
 		collision.setPos(x-ENEMY_WIDTH/2, y-ENEMY_HEIGHT/2);
 	}
 
@@ -159,4 +159,3 @@ public class GenericEnemy extends Enemy{
 		return ENEMY_HEIGHT;
 	}
 }
-
