@@ -15,9 +15,9 @@ public class EnergyFalcon extends Game {
 	Image cover, background;
 	private GameState state = GameState.START;
 	private Player p;
-	private GenericEnemy e;
 	private Wall[] walls;
 	private Image win, lose;
+	SpawnTracker spawn;
 	
 	java.applet.AudioClip backgroundMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("backgroundmusic.wav"));
 	java.applet.AudioClip coverMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
@@ -30,8 +30,8 @@ public class EnergyFalcon extends Game {
 	public EnergyFalcon() {
 
 		p = new Player();
-		e = new GenericEnemy(p);
 		walls = new Wall[4];
+		spawn = new SpawnTracker(p);
 		
 		walls[Wall.LEFT_WALL] = new Wall(0,0,80, Game.HEIGHT, Wall.LEFT_WALL);
 		walls[Wall.RIGHT_WALL] = new Wall(Wall.RIGHT_WALL_EDGE,0,80, Game.HEIGHT, Wall.RIGHT_WALL);
@@ -72,21 +72,21 @@ public class EnergyFalcon extends Game {
 			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 			graphics.drawImage(background, 0, 0, null);
 			p.onTick(input);
-			e.onTick(input);
+			//e.onTick(input);
 			
 			CollisionTracker.handleCollisions();
 			
 			p.draw(graphics);
-			e.draw(graphics);
+			//e.draw(graphics);
 			
 			
 			if(p.getPlayerHealth() <= 0){
 				state = GameState.DEFEAT;
 			}
 			
-			if(e.getEnemyHealth() <= 0){
-				state = GameState.VICTORY;
-			}
+//			if(e.getEnemyHealth() <= 0){
+//				state = GameState.VICTORY;
+//			}
 			break;
 		case DEFEAT:
 			if(!lost){
@@ -104,7 +104,22 @@ public class EnergyFalcon extends Game {
 		default:
 			break;
 		}
-		}
+		
+		graphics.setColor(Color.black);
+		graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		graphics.drawImage(background, 0, 0, null);
+		p.onTick(input);
+		spawn.onTick(input);
+		
+		CollisionTracker.handleCollisions();
+		
+		p.draw(graphics);
+		spawn.draw(graphics);
+		
+		//game.draw(graphics);
+
+	}
+
 	
 	private void init(){
 		started = true;

@@ -16,12 +16,12 @@ public abstract class Collider {
 	abstract void setPos(double x, double y);
 	abstract double getX();
 	abstract double getY();
-	abstract void onCollide(CollisionType t, Object extraData);
+	abstract CollisionData getCollisionData();
+	abstract void onCollide(CollisionType t, CollisionData extraData);
 	
 	void destruct(){
-		for(CollisionType t : types){
-			CollisionTracker.removeCollision(this, t);
+		for(int i = 0;i<types.length;i++){
+			CollisionTracker.removeCollision(this, types[i]);
 		}
 	}
 }
-
