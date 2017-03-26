@@ -27,7 +27,6 @@ public class Parry {
 
 		@Override
 		void onCollide(CollisionType t, CollisionData extraData) {
-			// TODO Auto-generated method stub
 
 		}
 

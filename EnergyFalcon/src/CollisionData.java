@@ -42,7 +42,7 @@ public class CollisionData {
 		y = c.getY();
 		width = c.width;
 		height = c.height;
-		isParry = true; 
+		isParry = true;
 	}
 
 	public boolean isParry() {

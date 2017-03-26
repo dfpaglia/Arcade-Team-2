@@ -117,6 +117,7 @@ public class GenericEnemy extends Enemy {
 		}
 		x += vel.getX() + knockbackVel.getX();
 		y += vel.getY() + knockbackVel.getY();
+
 		collision.setPos(x - ENEMY_WIDTH / 2, y - ENEMY_HEIGHT / 2);
 	}
 
@@ -164,4 +165,5 @@ public class GenericEnemy extends Enemy {
 	public double getHeight() {
 		return ENEMY_HEIGHT;
 	}
+
 }
