@@ -6,13 +6,13 @@ public class CollisionData {
 	private PlayerHealth hp = null;
 	private int wallType = -1;
 	private boolean isParry;
-	
-	public CollisionData(Collider c){
+
+	public CollisionData(Collider c) {
 		x = c.getX();
 		y = c.getY();
 	}
-	
-	public CollisionData(BoxCollision c, EnemyHealth he, EnemyType e){
+
+	public CollisionData(BoxCollision c, EnemyHealth he, EnemyType e) {
 		x = c.getX();
 		y = c.getY();
 		width = c.width;
@@ -20,52 +20,64 @@ public class CollisionData {
 		enemy = e;
 		this.he = he;
 	}
-	
-	public CollisionData(BoxCollision c, PlayerHealth h){
+
+	public CollisionData(BoxCollision c, PlayerHealth h) {
 		x = c.getX();
 		y = c.getY();
 		width = c.width;
 		height = c.height;
 		hp = h;
 	}
-	
-	public CollisionData(BoxCollision c, int wall){
+
+	public CollisionData(BoxCollision c, int wall) {
 		x = c.getX();
 		y = c.getY();
 		width = c.width;
 		height = c.height;
 		wallType = wall;
 	}
-	
-	public int getWall(){
+
+	public CollisionData(BoxCollision c, Parry p) {
+		x = c.getX();
+		y = c.getY();
+		width = c.width;
+		height = c.height;
+		isParry = true;
+	}
+
+	public boolean isParry() {
+		return isParry;
+	}
+
+	public int getWall() {
 		return wallType;
 	}
-	
-	public EnemyHealth getEnemyHealth(){
+
+	public EnemyHealth getEnemyHealth() {
 		return he;
 	}
-	
-	public PlayerHealth getPlayerHealth(){
+
+	public PlayerHealth getPlayerHealth() {
 		return hp;
 	}
-	
-	public EnemyType getEnemy(){
+
+	public EnemyType getEnemy() {
 		return enemy;
 	}
-	
-	public double getX(){
+
+	public double getX() {
 		return x;
 	}
-	
-	public double getY(){
+
+	public double getY() {
 		return y;
 	}
-	
-	public double getWidth(){
+
+	public double getWidth() {
 		return width;
 	}
-	
-	public double getHeight(){
+
+	public double getHeight() {
 		return height;
 	}
 }
