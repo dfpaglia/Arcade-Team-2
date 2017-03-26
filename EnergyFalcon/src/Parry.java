@@ -19,10 +19,10 @@ public class Parry {
 	private double lastX;
 	private double lastY;
 
-	private class ParryHitBox extends BoxCollision {
+	private class ParryHitBox extends BoxCollision { // HitBox is Misnomer
 
 		public ParryHitBox(double x, double y, double width, double height, Player p) {
-			super(x, y, width, height, CollisionType.PLAYER_HITBOX_COLLISION);
+			super(x, y, width, height, CollisionType.PLAYER_HURTBOX_COLLISION);
 		}
 		
 		@Override
