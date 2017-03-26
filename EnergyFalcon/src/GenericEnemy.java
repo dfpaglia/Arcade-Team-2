@@ -26,6 +26,7 @@ public class GenericEnemy extends Enemy {
 			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION, CollisionType.ENEMY_HURTBOX_COLLISION);
 		}
 
+
 		public void onCollide(CollisionType t, CollisionData extraData) {
 			if (isEnabled) {
 				switch (t) {
@@ -45,6 +46,7 @@ public class GenericEnemy extends Enemy {
 					break;
 				case WALL_COLLISION:
 					switch (extraData.getWall()) {
+
 					case Wall.TOP_WALL:
 						GenericEnemy.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT / 2;
 						vel.setY(0);
@@ -78,13 +80,12 @@ public class GenericEnemy extends Enemy {
 	};
 
 	private EnemyCollision collision;
-
 	public GenericEnemy(Player p) {
 		super(p, 0, 0);
 		collision = new EnemyCollision(x - ENEMY_WIDTH / 2, y - ENEMY_HEIGHT / 2, ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
 		knockbackVel = new Vector2D(0, 0, 1);
-		h = new EnemyHealth(5);
+		h = new EnemyHealth(3);
 		try {
 
 			enemySprite = ImageIO.read(this.getClass().getResource("EnemyTest1.png"));
@@ -94,7 +95,7 @@ public class GenericEnemy extends Enemy {
 		}
 	}
 
-	@Override
+
 	public void onTick(Input input) {
 		if (!isEnabled)
 			return;
@@ -107,6 +108,7 @@ public class GenericEnemy extends Enemy {
 			vel = Vector2D.unitVector(vel);
 			vel = Vector2D.scale(vel, ENEMY_MAX_SPEED);
 		}
+
 		// knockback
 		if (knockbackVel.magnitude() < ENEMY_KNOCKBACK_DECCEL) {
 			knockbackVel.setX(0);
@@ -121,13 +123,11 @@ public class GenericEnemy extends Enemy {
 		collision.setPos(x - ENEMY_WIDTH / 2, y - ENEMY_HEIGHT / 2);
 	}
 
-	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(enemySprite, (int) Math.round(x - (ENEMY_WIDTH / 2)), (int) Math.round(y - (ENEMY_HEIGHT / 2)),
 				null);
 	}
 
-	@Override
 	public Collider getCollider() {
 		return collision;
 	}

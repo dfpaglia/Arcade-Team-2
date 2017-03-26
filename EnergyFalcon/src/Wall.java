@@ -21,6 +21,7 @@ public class Wall extends BoxCollision{
 	public int getWall(){
 		return wall;
 	}
+
 	@Override
 	void onCollide(CollisionType t, CollisionData extraData) {
 		
@@ -28,5 +29,6 @@ public class Wall extends BoxCollision{
 	@Override
 	CollisionData getCollisionData() {
 		return new CollisionData(this, wall);
+
 	}
 }

@@ -133,14 +133,15 @@ public class Player implements Actor {
 		sword.onTick(input, this);
 		parry.onTick(input, this);
 	}
+	
+	public Collider getCollider(){
 
-	public Collider getCollider() {
 		return collision;
 	}
 
 	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, (int) Math.round(x - (PLAYER_WIDTH / 2)), (int) Math.round(y - (PLAYER_HEIGHT / 2)),
-				null);
+		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);
 		parry.draw(g);

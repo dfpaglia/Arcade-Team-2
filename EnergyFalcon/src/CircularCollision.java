@@ -82,18 +82,15 @@ public abstract class CircularCollision extends Collider {
 		return false;
 	}
 
-	@Override
 	public void setPos(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	@Override
 	public double getX() {
 		return x;
 	}
 
-	@Override
 	public double getY() {
 		return y;
 	}

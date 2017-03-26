@@ -2,9 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
-
-import arcadia.Game;
 import arcadia.Input;
 
 public class Wizard extends Enemy {

@@ -2,6 +2,7 @@ import java.awt.Image;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+
 public class PlayerHealth {
 
 	private static final long HIT_TIME_DELTA = 1000000000L; //Wait 1 second between hits
@@ -12,7 +13,6 @@ public class PlayerHealth {
 	public int healthCeiling = 4;
 	public long hitTime = 0;
 	public long hitTimeCeiling = 0;
-	
 	
 	public PlayerHealth(){
 	
@@ -69,8 +69,6 @@ public class PlayerHealth {
 			return null;
 		default:
 			return null;
-		}
-		
-		
+		}		
 	}
 }
