@@ -19,9 +19,13 @@ public class EnergyFalcon extends Game {
 	private Wall[] walls;
 	private Image win, lose;
 	
-	java.applet.AudioClip clip = java.applet.Applet.newAudioClip(this.getClass().getResource("background.wav"));
-	java.applet.AudioClip noise = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
+	java.applet.AudioClip backgroundMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("backgroundmusic.wav"));
+	java.applet.AudioClip coverMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("covermusic.wav"));
+	java.applet.AudioClip defeatMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("dead.wav"));
+	java.applet.AudioClip victoryMusic = java.applet.Applet.newAudioClip(this.getClass().getResource("popdance.wav"));
 	private boolean started = false;
+	private boolean lost = false;
+	private boolean won = false;
 
 	public EnergyFalcon() {
 
@@ -38,13 +42,13 @@ public class EnergyFalcon extends Game {
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.png"));
 			background = ImageIO.read(this.getClass().getResource("ArenaFix.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
-			win = ImageIO.read(this.getClass().getResource("Victory Screen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
-			lose = ImageIO.read(this.getClass().getResource("Defeat Screen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
+			win = ImageIO.read(this.getClass().getResource("WinScreen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
+			lose = ImageIO.read(this.getClass().getResource("GameOverScreen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT, 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		noise.loop();
+		coverMusic.loop();
 	}
 
 	public static void main(String[] args) {
@@ -85,9 +89,16 @@ public class EnergyFalcon extends Game {
 			}
 			break;
 		case DEFEAT:
+			if(!lost){
+				deadinit();
+			}
 			graphics.drawImage(lose,0,0,null);
+			
 			break;
 		case VICTORY:
+			if(!won){
+				wininit();
+			}
 			graphics.drawImage(win,0,0,null);
 			break;
 		default:
@@ -96,9 +107,21 @@ public class EnergyFalcon extends Game {
 		}
 	
 	private void init(){
-		noise.stop();
-		clip.loop();
 		started = true;
+		coverMusic.stop();
+		backgroundMusic.loop();
+	}
+	
+	private void deadinit(){
+		lost = true;
+		backgroundMusic.stop();
+		defeatMusic.loop();
+	}
+	
+	private void wininit(){
+		won = true;
+		backgroundMusic.stop();
+		victoryMusic.loop();
 	}
 	
 	public Image cover() {
