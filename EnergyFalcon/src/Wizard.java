@@ -16,8 +16,7 @@ public class Wizard extends Enemy {
 	private static final long TELEPORT_TIME = 1000000000L; //Time the wizard is gone between teleports. 1 second
 	private static final long FIREBALL_WAIT = 300000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
 	
-	private double x, y;
-	private boolean isVisible = false;
+	private boolean isVisible = true;
 	private boolean isEnabled = true;
 	private long appearTime=0, teleTime = 0, fireTime = 0; 
 	private EnemyHealth health = new EnemyHealth(ENEMY_HEALTH);
@@ -61,7 +60,7 @@ public class Wizard extends Enemy {
 	private WizardCollider c = null;
 	
 	public Wizard(Player p){
-		super(p);
+		super(p, 0, 0);
 		long curTime = System.nanoTime();
 		appearTime = curTime;
 		fireTime = curTime + FIREBALL_WAIT;
@@ -165,5 +164,15 @@ public class Wizard extends Enemy {
 	@Override
 	public void enableEnemy() {
 		isEnabled = true;
+	}
+
+	@Override
+	public double getWidth() {
+		return ENEMY_WIDTH;
+	}
+
+	@Override
+	public double getHeight() {
+		return ENEMY_HEIGHT;
 	}
 }

@@ -14,7 +14,6 @@ public class GenericEnemy extends Enemy{
 	private static final double ENEMY_ACCEL = 3.0;
 	private static final double ENEMY_KNOCKBACK_DECCEL = 1.0;
 	
-	private double x=400, y=250;
 	private Vector2D vel;
 	private Vector2D knockbackVel;
 	private Image enemySprite;
@@ -29,41 +28,41 @@ public class GenericEnemy extends Enemy{
 
 		public void onCollide(CollisionType t, CollisionData extraData) {
 			if(isEnabled){
-			switch(t){
-				case PLAYER_HITBOX_COLLISION:
-					//TODO should something happen to this enemy if it collides with the player?
-					break;
-				case PLAYER_HURTBOX_COLLISION:
-					if(h.canBeHurt()){
-						knockbackVel = new Vector2D(GenericEnemy.this.x - extraData.getX() - (extraData.getWidth()/2), GenericEnemy.this.y - extraData.getY() - (extraData.getWidth()/2), 1);
-						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
-						h.hurt();
+				switch(t){
+					case PLAYER_HITBOX_COLLISION:
+						//TODO should something happen to this enemy if it collides with the player?
+						break;
+					case PLAYER_HURTBOX_COLLISION:
+						if(h.canBeHurt()){
+							knockbackVel = new Vector2D(GenericEnemy.this.x - extraData.getX() - (extraData.getWidth()/2), GenericEnemy.this.y - extraData.getY() - (extraData.getWidth()/2), 1);
+							knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL); 
+							h.hurt();
+						}
+						break;
+					case WALL_COLLISION:
+						switch(extraData.getWall()){
+							case Wall.TOP_WALL:
+								GenericEnemy.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT/2;
+								vel.setY(0);
+								break;
+							case Wall.BOTTOM_WALL:
+								GenericEnemy.this.y = Wall.BOTTOM_WALL_EDGE - ENEMY_HEIGHT/2 - 1;
+								vel.setY(0);
+								break;
+							case Wall.LEFT_WALL:
+								GenericEnemy.this.x = Wall.LEFT_WALL_EDGE + ENEMY_WIDTH/2;
+								vel.setX(0);
+								break;
+							case Wall.RIGHT_WALL:
+								GenericEnemy.this.x = Wall.RIGHT_WALL_EDGE - ENEMY_WIDTH/2 - 1;
+								vel.setX(0);
+								break;
+						}
+						break;
+					default:
+						break;
+					
 					}
-					break;
-				case WALL_COLLISION:
-					switch(extraData.getWall()){
-						case Wall.TOP_WALL:
-							GenericEnemy.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT/2;
-							vel.setY(0);
-							break;
-						case Wall.BOTTOM_WALL:
-							GenericEnemy.this.y = Wall.BOTTOM_WALL_EDGE - ENEMY_HEIGHT/2 - 1;
-							vel.setY(0);
-							break;
-						case Wall.LEFT_WALL:
-							GenericEnemy.this.x = Wall.LEFT_WALL_EDGE + ENEMY_WIDTH/2;
-							vel.setX(0);
-							break;
-						case Wall.RIGHT_WALL:
-							GenericEnemy.this.x = Wall.RIGHT_WALL_EDGE - ENEMY_WIDTH/2 - 1;
-							vel.setX(0);
-							break;
-					}
-					break;
-				default:
-					break;
-				
-				}
 			}
 		}
 
@@ -77,7 +76,7 @@ public class GenericEnemy extends Enemy{
 	private EnemyCollision collision;
 	
 	public GenericEnemy(Player p){
-		super(p);
+		super(p, 0, 0);
 		collision = new EnemyCollision(x-ENEMY_WIDTH/2,y-ENEMY_HEIGHT/2,ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
 		knockbackVel = new Vector2D(0, 0, 1);
@@ -130,14 +129,6 @@ public class GenericEnemy extends Enemy{
 		return h.getEnemyHealth();
 	}
 
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
 	@Override
 	public boolean isDead() {
 		return h.getEnemyHealth() <= 0;
@@ -156,6 +147,16 @@ public class GenericEnemy extends Enemy{
 	@Override
 	public void enableEnemy() {
 		isEnabled = true;
+	}
+
+	@Override
+	public double getWidth() {
+		return ENEMY_WIDTH;
+	}
+
+	@Override
+	public double getHeight() {
+		return ENEMY_HEIGHT;
 	}
 }
 
