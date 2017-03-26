@@ -101,7 +101,7 @@ public class GenericEnemy extends Enemy{
 		if(vel.magnitude() > ENEMY_MAX_SPEED){
 			vel = Vector2D.unitVector(vel);
 			vel = Vector2D.scale(vel, ENEMY_MAX_SPEED);
-		}
+		} 
 		//knockback
 		if(knockbackVel.magnitude() < ENEMY_KNOCKBACK_DECCEL){
 			knockbackVel.setX(0);
@@ -110,8 +110,8 @@ public class GenericEnemy extends Enemy{
 			Vector2D knockBackDeccel = Vector2D.scale(Vector2D.unitVector(knockbackVel), -ENEMY_KNOCKBACK_DECCEL);
 			knockbackVel = Vector2D.add(knockbackVel, knockBackDeccel);
 		}
-		x += vel.getX() + knockbackVel.getX();
-		y += vel.getY() + knockbackVel.getY();
+		//x += vel.getX() + knockbackVel.getX();
+		//y += vel.getY() + knockbackVel.getY();
 		collision.setPos(x-ENEMY_WIDTH/2, y-ENEMY_HEIGHT/2);
 	}
 
