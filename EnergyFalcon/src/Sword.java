@@ -18,12 +18,13 @@ public class Sword {
 	private double lastY;
 	
 	private class SwordHurtbox extends CircularCollision{
+		Player p;
 		public SwordHurtbox(double x, double y, double r, Player p){
 			super(x,y,r,CollisionType.PLAYER_HURTBOX_COLLISION);
-			CollisionTracker.addData(this, p);
+			this.p = p;
 		}
 		
-		void onCollide(CollisionType t, Object extraData) {
+		void onCollide(CollisionType t, CollisionData extraData) {
 			switch(t){
 			case ENEMY_HITBOX_COLLISION:
 				//TODO add stuff that happens to this sword or player?
@@ -32,6 +33,11 @@ public class Sword {
 				break;
 			
 			}
+		}
+
+		@Override
+		CollisionData getCollisionData() {
+			return new CollisionData((BoxCollision)p.getCollider());
 		}
 	}
 	
