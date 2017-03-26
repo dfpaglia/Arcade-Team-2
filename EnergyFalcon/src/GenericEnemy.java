@@ -85,7 +85,7 @@ public class GenericEnemy extends Enemy {
 		collision = new EnemyCollision(x - ENEMY_WIDTH / 2, y - ENEMY_HEIGHT / 2, ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
 		knockbackVel = new Vector2D(0, 0, 1);
-		h = new EnemyHealth(5);
+		h = new EnemyHealth(3);
 		try {
 
 			enemySprite = ImageIO.read(this.getClass().getResource("EnemyTest1.png"));

@@ -106,4 +106,8 @@ public class SpawnTracker {
 	private int generateDifficulty(){
 		return (int)Math.round(Math.sqrt(round)+round);
 	}
+	
+	public boolean winner () {
+	return round >= 3;	
+	}
 }
