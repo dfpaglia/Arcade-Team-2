@@ -92,7 +92,6 @@ public class Wizard extends Enemy {
 			g.setColor(Color.CYAN);
 			g.fillRect((int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
 		}
-		c.drawCollision(g);
 		g.setColor(Color.red);
 		for(Fireball f : fire){
 			f.draw(g);

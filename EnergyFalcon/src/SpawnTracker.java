@@ -25,6 +25,7 @@ public class SpawnTracker {
 		round = 1;
 		this.p = p;
 		rand = new Random();
+		generateEnemies();
 	}
 	
 	public void onTick(Input in){
@@ -108,6 +109,7 @@ public class SpawnTracker {
 	}
 	
 	public boolean winner () {
-	return round >= 5;	
+
+	return round > 3;	
 	}
 }
