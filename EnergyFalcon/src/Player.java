@@ -1,12 +1,15 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
+
+import DavidMohrhardt.*;
 
 public class Player implements Actor{
 
@@ -28,6 +31,9 @@ public class Player implements Actor{
 	private Direction d;
 	private Sword sword;
 	
+	private Animator playerSS;
+	private Sprite pS;
+	private ArrayList<String> actions;
 	
 	
 	//Nested collision class for player
@@ -77,6 +83,9 @@ public class Player implements Actor{
 	private PlayerCollision collision;
 	
 	public Player() {
+		playerSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
+		pS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
+		actions = pS.getActions();
 		try {
 			playerSprite = ImageIO.read(this.getClass().getResource("PCSprite.png"));
 		} catch (IOException e) {
@@ -140,6 +149,20 @@ public class Player implements Actor{
 
 
 	public void draw(Graphics2D g) {
+		if(Math.abs(vel.getX()) > Math.abs(vel.getY())){
+			
+			if(vel.getX() > 0){ //PC going right
+				g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+			
+			} else { //PC going left
+				
+			}
+		} else {
+			
+		
+		}
+		
+		
 		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);

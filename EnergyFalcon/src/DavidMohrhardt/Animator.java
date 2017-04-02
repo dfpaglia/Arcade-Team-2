@@ -1,4 +1,4 @@
-package DavidMohrhardt.animator;
+package DavidMohrhardt;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
