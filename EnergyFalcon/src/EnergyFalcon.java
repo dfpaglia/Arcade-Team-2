@@ -109,6 +109,9 @@ public class EnergyFalcon extends Game {
 			if (input.pressed(Button.S)) {
 				state = GameState.PLAY; // Resumes game
 			}
+			if (input.pressed(Button.A)) {
+				state = GameState.CONTROLS; // View controls
+			}
 			break;
 		case DEFEAT:
 			if (!lost) {
