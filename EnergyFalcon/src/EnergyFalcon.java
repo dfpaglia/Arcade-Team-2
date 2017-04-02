@@ -63,7 +63,16 @@ public class EnergyFalcon extends Game {
 		case START:
 			graphics.drawImage(cover, 0, 0, null);
 			if (input.pressed(Button.A)) {
-				state = GameState.PLAY;
+				state = GameState.PLAY; // Starts game
+			}
+			if (input.pressed(Button.S)) {
+				state = GameState.CONTROLS; // Views controls
+			}
+			break;
+		case CONTROLS:
+			//TODO make controls screen graphics.drawImage(controls, 0, 0, null);
+			if (input.pressed(Button.B)) {
+				state = GameState.START; // Goes back to start screen
 			}
 			break;
 		case PLAY:
@@ -82,29 +91,48 @@ public class EnergyFalcon extends Game {
 			spawn.draw(graphics);
 
 			if (p.getPlayerHealth() <= 0) {
-				state = GameState.DEFEAT;
+				state = GameState.DEFEAT; // Ends game because player lost
 			}
 			
 			if (spawn.winner()) {
-				state = GameState.VICTORY;
+				state = GameState.VICTORY; // Ends game because player won
 			}
-
-			// if(e.getEnemyHealth() <= 0){
-			// state = GameState.VICTORY;
-			// }
+			if (input.pressed(Button.S)) {
+				state = GameState.PAUSE; // Pauses game
+			}
+			break;
+		case PAUSE:
+			//TODO make pause screen graphics.drawImage(pause, 0, 0, null);
+			if (input.pressed(Button.B)) {
+				state = GameState.START; // Returns to start menu
+			}
+			if (input.pressed(Button.S)) {
+				state = GameState.PLAY; // Resumes game
+			}
 			break;
 		case DEFEAT:
 			if (!lost) {
 				deadinit();
 			}
 			graphics.drawImage(lose, 0, 0, null);
-
+			if (input.pressed(Button.A)) {
+				state = GameState.PLAY; // Starts game again
+			}
+			if (input.pressed(Button.S)) {
+				state = GameState.START; // Returns to start menu
+			}
 			break;
 		case VICTORY:
 			if (!won) {
 				wininit();
 			}
 			graphics.drawImage(win, 0, 0, null);
+			if (input.pressed(Button.A)) {
+				state = GameState.PLAY; // Starts game again
+			}
+			if (input.pressed(Button.S)) {
+				state = GameState.START; // Returns to start menu
+			}
 			break;
 		default:
 			break;
