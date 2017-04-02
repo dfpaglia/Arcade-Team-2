@@ -108,6 +108,6 @@ public class SpawnTracker {
 	}
 	
 	public boolean winner () {
-	return round >= 3;	
+	return round >= 5;	
 	}
 }
