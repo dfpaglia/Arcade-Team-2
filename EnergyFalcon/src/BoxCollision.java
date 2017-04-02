@@ -29,7 +29,6 @@ public abstract class BoxCollision extends Collider {
 		return width;
 	}
 
-	@Override
 	public boolean collides(Collider c) {
 		if(c instanceof BoxCollision){
 			BoxCollision b = (BoxCollision)c;
@@ -80,18 +79,15 @@ public abstract class BoxCollision extends Collider {
 		return false;
 	}
 
-	@Override
 	public void setPos(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	@Override
 	public double getX() {
 		return x;
 	}
 
-	@Override
 	public double getY() {
 		return y;
 	}

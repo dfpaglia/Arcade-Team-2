@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CollisionTracker {
 	private static ArrayList<Collider> enemyHurtboxes = new ArrayList<Collider>();
@@ -9,7 +7,6 @@ public class CollisionTracker {
 	private static ArrayList<Wall> walls = new ArrayList<Wall>();
 	private static ArrayList<Collider> generalHurtboxes = new ArrayList<Collider>();
 	private static Collider playerHitbox = null;
-	private static Map<Collider, Object> extraData = new HashMap<Collider, Object>(25);
 	
 	public static void addCollider(Collider c,  CollisionType type){
 		switch(type){
@@ -38,27 +35,25 @@ public class CollisionTracker {
 			
 		}
 	}
-	public static void addData(Collider c, Object data){
-		extraData.put(c, data);
-	}
+	
 	public static void handleCollisions(){
 		//For every enemy hurtbox, check if it touches the player
 		for(Collider c : enemyHurtboxes){
 			if(c.collides(playerHitbox)){
-				c.onCollide(CollisionType.PLAYER_HITBOX_COLLISION, extraData.get(playerHitbox));
-				playerHitbox.onCollide(CollisionType.ENEMY_HURTBOX_COLLISION, extraData.get(c));
+				c.onCollide(CollisionType.PLAYER_HITBOX_COLLISION, playerHitbox.getCollisionData());
+				playerHitbox.onCollide(CollisionType.ENEMY_HURTBOX_COLLISION, c.getCollisionData());
 			}
 		}
-		//For every wall, see if it collides with the player hitbox
+		//For every wall, see if it collides with the player hitbox & enemy
 		for(Wall w : walls){
 			if(w.collides(playerHitbox)){
-				playerHitbox.onCollide(CollisionType.WALL_COLLISION, extraData.get(w));
-				w.onCollide(CollisionType.PLAYER_HITBOX_COLLISION, extraData.get(playerHitbox));
+				playerHitbox.onCollide(CollisionType.WALL_COLLISION, w.getCollisionData());
+				w.onCollide(CollisionType.PLAYER_HITBOX_COLLISION, playerHitbox.getCollisionData());
 			}
 			for(Collider e : enemyHitboxes){
 				if(w.collides(e)){
-					e.onCollide(CollisionType.WALL_COLLISION, extraData.get(w));
-					w.onCollide(CollisionType.ENEMY_HITBOX_COLLISION, extraData.get(e));
+					e.onCollide(CollisionType.WALL_COLLISION, w.getCollisionData());
+					w.onCollide(CollisionType.ENEMY_HITBOX_COLLISION, e.getCollisionData());
 				}
 			}
 		}
@@ -66,8 +61,8 @@ public class CollisionTracker {
 		for(Collider c : playerHurtboxes){
 			for(Collider ce : enemyHitboxes){
 				if(c.collides(ce)){
-					c.onCollide(CollisionType.ENEMY_HITBOX_COLLISION, extraData.get(ce));
-					ce.onCollide(CollisionType.PLAYER_HURTBOX_COLLISION, extraData.get(c));
+					c.onCollide(CollisionType.ENEMY_HITBOX_COLLISION, ce.getCollisionData());
+					ce.onCollide(CollisionType.PLAYER_HURTBOX_COLLISION, c.getCollisionData());
 				}
 			}
 		}
@@ -75,7 +70,6 @@ public class CollisionTracker {
 	}
 	
 	public static void removeCollision(Collider c, CollisionType type){
-		extraData.remove(c);
 		switch(type){
 			case ENEMY_HITBOX_COLLISION:
 				enemyHitboxes.remove(c);

@@ -16,14 +16,19 @@ public class Wall extends BoxCollision{
 	public Wall(double x, double y, double width, double height, int wall){
 		super(x,y,width,height, CollisionType.WALL_COLLISION);
 		this.wall = wall;
-		CollisionTracker.addData(this, wall);
 	}
 	
 	public int getWall(){
 		return wall;
 	}
 
-	public void onCollide(CollisionType t, Object extraData) {
-		//TODO add stuff here if you want
+	@Override
+	void onCollide(CollisionType t, CollisionData extraData) {
+		
+	}
+	@Override
+	CollisionData getCollisionData() {
+		return new CollisionData(this, wall);
+
 	}
 }
