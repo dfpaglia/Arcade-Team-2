@@ -1,4 +1,3 @@
-
 public abstract class Enemy implements Actor{
 	protected Player p;
 	protected double x, y;
