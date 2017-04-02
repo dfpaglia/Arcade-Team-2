@@ -6,6 +6,7 @@ public class CollisionData {
 	private PlayerHealth hp = null;
 	private int wallType = -1;
 	private boolean isParry;
+	
 
 	public CollisionData(Collider c) {
 		x = c.getX();
