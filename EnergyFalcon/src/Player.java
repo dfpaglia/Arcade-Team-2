@@ -39,8 +39,7 @@ public class Player implements Actor{
 	private ArrayList<String> actions;
 	
 	
-	//Nested collision class for player
-	private class PlayerCollision extends BoxCollision{		
+		
 
 	private Parry parry;
 
@@ -247,5 +246,4 @@ public class Player implements Actor{
 	public Direction getDirection() {
 		return d;
 	}
-}
 }
