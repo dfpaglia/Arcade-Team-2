@@ -168,4 +168,9 @@ public class GenericEnemy extends Enemy {
 		return ENEMY_HEIGHT;
 	}
 
+	@Override
+	public EnemyType getType() {
+		return EnemyType.GENERIC_ENEMY;
+	}
+
 }

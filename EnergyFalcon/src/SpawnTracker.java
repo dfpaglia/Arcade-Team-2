@@ -55,8 +55,13 @@ public class SpawnTracker {
 			} else {
 				e.onTick(in);
 				if (e.isDead()) {
+					POINTS += e.getType().getDifficulty();
 					e.destruct();
 					it.remove();
+					if (POINTS >= 5) {
+						POINTS = 0;
+						p.getHealth().heal();
+					}
 				}
 			}
 		}
