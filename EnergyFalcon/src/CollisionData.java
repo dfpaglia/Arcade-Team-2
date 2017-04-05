@@ -8,6 +8,7 @@ public class CollisionData {
 	private boolean isParry;
 	private Fireball f;
 
+
 	public CollisionData(Collider c) {
 		x = c.getX();
 		y = c.getY();
