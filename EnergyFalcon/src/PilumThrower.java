@@ -9,6 +9,8 @@ public class PilumThrower extends Enemy{
 	private static final int ENEMY_WIDTH=75;
 	private static final int ENEMY_HEIGHT=63;
 	private static final int ENEMY_HEALTH = 3;
+	private static final double ENEMY_KNOCKBACK_VEL = 10.0;
+	private static final double ENEMY_KNOCKBACK_DECCEL = 1.0;
 	
 	private static final long FIREBALL_WAIT = 1800000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
 	
@@ -17,6 +19,8 @@ public class PilumThrower extends Enemy{
 	private long fireTime = 0; 
 	private EnemyHealth health = new EnemyHealth(ENEMY_HEALTH);
 	private ArrayList<Pilum> pilums;
+	
+	private Vector2D knockbackVel;
 	
 	private class PilumThrowerCollider extends BoxCollision{
 		public PilumThrowerCollider(double x, double y, double width, double height) {
@@ -33,13 +37,36 @@ public class PilumThrower extends Enemy{
 				case HURTBOX_GENERAL:
 					break;
 				case PLAYER_HITBOX_COLLISION:
+					if (extraData.isParry()) {
+						knockbackVel = new Vector2D(PilumThrower.this.x - extraData.getX() - (ENEMY_WIDTH / 2),
+								PilumThrower.this.y - extraData.getY() - (ENEMY_HEIGHT / 2), 1);
+						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL);
+					}
 					break;
 				case PLAYER_HURTBOX_COLLISION:
-					if(health.canBeHurt()){
+					if (health.canBeHurt()) {
+						knockbackVel = new Vector2D(PilumThrower.this.x - extraData.getX() - (extraData.getWidth() / 2),
+								PilumThrower.this.y - extraData.getY() - (extraData.getHeight() / 2), 1);
+						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL);
 						health.hurt();
 					}
 					break;
 				case WALL_COLLISION:
+					switch (extraData.getWall()) {
+
+					case Wall.TOP_WALL:
+						PilumThrower.this.y = Wall.TOP_WALL_EDGE + ENEMY_HEIGHT / 2;
+						break;
+					case Wall.BOTTOM_WALL:
+						PilumThrower.this.y = Wall.BOTTOM_WALL_EDGE - ENEMY_HEIGHT / 2 - 1;
+						break;
+					case Wall.LEFT_WALL:
+						PilumThrower.this.x = Wall.LEFT_WALL_EDGE + ENEMY_WIDTH / 2;
+						break;
+					case Wall.RIGHT_WALL:
+						PilumThrower.this.x = Wall.RIGHT_WALL_EDGE - ENEMY_WIDTH / 2 - 1;
+						break;
+					}
 					break;
 				default:
 					break;
@@ -61,6 +88,7 @@ public class PilumThrower extends Enemy{
 		fireTime = curTime + FIREBALL_WAIT;
 		pilums = new ArrayList<Pilum>();
 		c = new PilumThrowerCollider(x, y, ENEMY_WIDTH, ENEMY_HEIGHT);
+		knockbackVel = new Vector2D(0,0,1);
 	}
 	
 	@Override
@@ -75,6 +103,16 @@ public class PilumThrower extends Enemy{
 			pilums.add(new Pilum(x, y, new Vector2D(p.getX()  - x, p.getY() - y, 1)));
 			fireTime = curTime + FIREBALL_WAIT;
 		}
+		// knockback
+		if (knockbackVel.magnitude() < ENEMY_KNOCKBACK_DECCEL) {
+			knockbackVel.setX(0);
+			knockbackVel.setY(0);
+		} else {
+			Vector2D knockBackDeccel = Vector2D.scale(Vector2D.unitVector(knockbackVel), -ENEMY_KNOCKBACK_DECCEL);
+			knockbackVel = Vector2D.add(knockbackVel, knockBackDeccel);
+		}
+		x+=knockbackVel.getX();
+		y+=knockbackVel.getY();
 		//Update all fireballs, delete ones marked for deletion.
 		Iterator<Pilum> itPilum = pilums.iterator();
 		Pilum f;
