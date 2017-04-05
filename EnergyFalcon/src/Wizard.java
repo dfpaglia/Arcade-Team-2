@@ -7,7 +7,7 @@ import arcadia.Input;
 public class Wizard extends Enemy {
 	private static final int ENEMY_WIDTH = 75;
 	private static final int ENEMY_HEIGHT = 63;
-	private static final int ENEMY_HEALTH = 3;
+	private static final int ENEMY_HEALTH = 2;
 
 	private static final long FIREBALL_WAIT = 1800000000L; // Time after the
 															// wizard appears to

@@ -35,6 +35,7 @@ public class Player implements Actor {
 
 	// Nested collision class for player
 	private class PlayerCollision extends BoxCollision {
+
 		public PlayerCollision(double x, double y, double width, double height) {
 			super(x, y, width, height, CollisionType.PLAYER_HITBOX_COLLISION);
 		}
@@ -84,7 +85,7 @@ public class Player implements Actor {
 
 	public Player() {
 		try {
-			playerSprite = ImageIO.read(this.getClass().getResource("FighterTest1.png"));
+			playerSprite = ImageIO.read(this.getClass().getResource("PCSprite.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
