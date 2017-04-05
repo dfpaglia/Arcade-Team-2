@@ -107,4 +107,8 @@ public class Vector2D {
 		Vector2D c = unitVector(b);
 		return Vector2D.scale(c, Vector2D.dotProduct(a, c));
 	}
+	//Rotate by angle in radians
+	public static Vector2D rotate(Vector2D a, double angle){
+		return new Vector2D(a.getX()*Math.cos(angle) - a.getY()*Math.sin(angle), a.getX()*Math.sin(angle) + a.getY()*Math.cos(angle), 1);
+	}
 }
