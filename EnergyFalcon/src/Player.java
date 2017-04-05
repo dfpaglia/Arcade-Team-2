@@ -95,25 +95,17 @@ public class Player implements Actor{
 		playerSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
 		pS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
 		actions = pS.getActions();
-		try {
-
-			playerSprite = ImageIO.read(this.getClass().getResource("PCSprite.png"));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		collision = new PlayerCollision(x - PLAYER_WIDTH / 2, y - PLAYER_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT);
 		health = new PlayerHealth();
 
 		knockbackVel = new Vector2D(0, 0, 1);
 		vel = new Vector2D(0, 0, 1);
-		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
 		y = Game.HEIGHT / 2;
 
 		d = Direction.DOWN;
-		sword = new Sword();
+		sword = new Sword(this);
 		parry = new Parry();
 	}
 
@@ -159,22 +151,38 @@ public class Player implements Actor{
 	}
 
 	public void draw(Graphics2D g) {
-		if(Math.abs(vel.getX()) > Math.abs(vel.getY())){
-			
-			if(vel.getX() > 0){ //PC going right
-				g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-			
-			} else { //PC going left
-				
+		 //if the player is not attacking
+			switch(getDirection()){
+				case UP:
+					if(sword.getIsSwinging())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(3), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(6), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+				case DOWN:
+					if(sword.getIsSwinging())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(5), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(4), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+				case LEFT:
+					if(sword.getIsSwinging())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(7), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(1), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+				case RIGHT:
+					if(sword.getIsSwinging())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(0), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
 			}
-		} else {
-			
 		
-		}
-		
-		
-		g.drawImage(playerSprite, (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);
 		parry.draw(g);
