@@ -140,4 +140,9 @@ public class PilumThrower extends Enemy{
 	public double getHeight() {
 		return ENEMY_HEIGHT;
 	}
+
+	@Override
+	public EnemyType getType() {
+		return EnemyType.PILUM_THROWER;
+	}
 }
