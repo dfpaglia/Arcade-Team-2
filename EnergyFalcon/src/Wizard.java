@@ -48,7 +48,7 @@ public class Wizard extends Enemy {
 		}
 
 		CollisionData getCollisionData() {
-			return new CollisionData(this, health, EnemyType.WIZARD);
+			return new CollisionData(this/*, health, EnemyType.WIZARD*/);
 		}
 	}
 	
