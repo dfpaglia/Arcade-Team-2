@@ -40,7 +40,7 @@ public class Fireball {
 		
 		@Override
 		CollisionData getCollisionData() {
-			return new CollisionData(this);
+			return new CollisionData(Fireball.this);
 		}
 	}
 	private FireballCollider c;
