@@ -12,8 +12,12 @@ import arcadia.Input;
 import arcadia.Sound;
 
 public class EnergyFalcon extends Game {
+	private static final long STATE_CHANGE_DELAY = 500000000L;
+	
 	Image cover, background;
+	private GameState lastState = null;
 	private GameState state = GameState.START;
+	private long allowNextChangeTime = 0;
 	private Player p;
 	private Wall[] walls;
 	private Image win, lose;
@@ -27,7 +31,8 @@ public class EnergyFalcon extends Game {
 	private boolean started = false;
 	private boolean lost = false;
 	private boolean won = false;
-
+	private boolean justChanged = false;
+	
 	public EnergyFalcon() {
 
 		p = new Player();
@@ -59,28 +64,52 @@ public class EnergyFalcon extends Game {
 	}
 
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
+		
+		if(justChanged){
+			justChanged = false;
+			allowNextChangeTime = System.nanoTime() + STATE_CHANGE_DELAY;
+		}
+		
 		switch (state) {
 		case START:
 			graphics.drawImage(cover, 0, 0, null);
-			if (input.pressed(Button.A)) {
-				state = GameState.PLAY; // Starts game
+			if(lastState!=null){
+				reset();
+				lastState = null;
 			}
-			if (input.pressed(Button.S)) {
-				state = GameState.CONTROLS; // Views controls
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.A)) {
+					justChanged = true;
+					lastState = GameState.START;
+					state = GameState.PLAY; // Starts game
+				}
+				if (input.pressed(Button.S)) {
+					justChanged = true;
+					lastState = GameState.START;
+					state = GameState.CONTROLS; // Views controls
+				}
 			}
 			break;
 		case CONTROLS:
 			//TODO make controls screen graphics.drawImage(controls, 0, 0, null);
-			if (input.pressed(Button.B)) {
-				state = GameState.START; // Goes back to start screen
+			graphics.setColor(Color.RED);
+			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.B)) {
+					justChanged = true;
+					state = lastState; // Goes back last screen
+					lastState = GameState.CONTROLS;
+				}
 			}
 			break;
 		case PLAY:
+			if(lastState == GameState.VICTORY || lastState == GameState.DEFEAT){
+				reset();
+				lastState = null;
+			}
 			if (!started) {
 				init();
 			}
-			graphics.setColor(Color.black);
-			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 			graphics.drawImage(background, 0, 0, null);
 			p.onTick(input);
 			spawn.onTick(input);
@@ -89,28 +118,45 @@ public class EnergyFalcon extends Game {
 
 			p.draw(graphics);
 			spawn.draw(graphics);
-
 			if (p.getPlayerHealth() <= 0) {
+				justChanged = true;
+				lastState = GameState.PLAY;
 				state = GameState.DEFEAT; // Ends game because player lost
 			}
 			
 			if (spawn.winner()) {
+				justChanged = true;
+				lastState = GameState.PLAY;
 				state = GameState.VICTORY; // Ends game because player won
 			}
-			if (input.pressed(Button.S)) {
-				state = GameState.PAUSE; // Pauses game
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.S)) {
+					justChanged = true;
+					lastState = GameState.PLAY;
+					state = GameState.PAUSE; // Pauses game
+				}
 			}
 			break;
 		case PAUSE:
 			//TODO make pause screen graphics.drawImage(pause, 0, 0, null);
-			if (input.pressed(Button.B)) {
-				state = GameState.START; // Returns to start menu
-			}
-			if (input.pressed(Button.S)) {
-				state = GameState.PLAY; // Resumes game
-			}
-			if (input.pressed(Button.A)) {
-				state = GameState.CONTROLS; // View controls
+			graphics.setColor(Color.BLUE);
+			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.B)) {
+					justChanged = true;
+					lastState = GameState.PAUSE;
+					state = GameState.START; // Returns to start menu
+				}
+				if (input.pressed(Button.S)) {
+					justChanged = true;
+					lastState = GameState.PAUSE;
+					state = GameState.PLAY; // Resumes game
+				}
+				if (input.pressed(Button.A)) {
+					justChanged = true;
+					lastState = GameState.PAUSE;
+					state = GameState.CONTROLS; // View controls
+				}
 			}
 			break;
 		case DEFEAT:
@@ -118,11 +164,17 @@ public class EnergyFalcon extends Game {
 				deadinit();
 			}
 			graphics.drawImage(lose, 0, 0, null);
-			if (input.pressed(Button.A)) {
-				state = GameState.PLAY; // Starts game again
-			}
-			if (input.pressed(Button.S)) {
-				state = GameState.START; // Returns to start menu
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.A)) {
+					justChanged = true;
+					lastState = GameState.DEFEAT;
+					state = GameState.PLAY; // Starts game again
+				}
+				if (input.pressed(Button.S)) {
+					justChanged = true;
+					lastState = GameState.DEFEAT;
+					state = GameState.START; // Returns to start menu
+				}
 			}
 			break;
 		case VICTORY:
@@ -130,11 +182,17 @@ public class EnergyFalcon extends Game {
 				wininit();
 			}
 			graphics.drawImage(win, 0, 0, null);
-			if (input.pressed(Button.A)) {
-				state = GameState.PLAY; // Starts game again
-			}
-			if (input.pressed(Button.S)) {
-				state = GameState.START; // Returns to start menu
+			if(allowNextChangeTime < System.nanoTime()){
+				if (input.pressed(Button.A)) {
+					justChanged = true;
+					lastState = GameState.VICTORY;
+					state = GameState.PLAY; // Starts game again
+				}
+				if (input.pressed(Button.S)) {
+					justChanged = true;
+					lastState = GameState.VICTORY;
+					state = GameState.START; // Returns to start menu
+				}
 			}
 			break;
 		default:
@@ -163,6 +221,18 @@ public class EnergyFalcon extends Game {
 
 	public Image cover() {
 		return cover;
+	}
+	
+	private void reset(){
+		started = false;
+		lost = false;
+		won = false;
+		backgroundMusic.stop();
+		defeatMusic.stop();
+		victoryMusic.stop();
+		coverMusic.loop();
+		p = new Player();
+		spawn = new SpawnTracker(p);
 	}
 
 }
