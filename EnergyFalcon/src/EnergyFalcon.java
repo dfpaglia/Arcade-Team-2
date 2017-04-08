@@ -14,7 +14,7 @@ import arcadia.Sound;
 public class EnergyFalcon extends Game {
 	private static final long STATE_CHANGE_DELAY = 500000000L;
 	
-	Image cover, background;
+	Image cover, background, controls, pause;
 	private GameState lastState = null;
 	private GameState state = GameState.START;
 	private long allowNextChangeTime = 0;
@@ -46,6 +46,9 @@ public class EnergyFalcon extends Game {
 
 		try {
 			cover = ImageIO.read(this.getClass().getResource("cover.png"));
+			controls = ImageIO.read(this.getClass().getResource("controls.png"));
+			pause = ImageIO.read(this.getClass().getResource("pause.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT,
+					0);
 			background = ImageIO.read(this.getClass().getResource("ArenaFix.png")).getScaledInstance(Game.WIDTH,
 					Game.HEIGHT, 0);
 			win = ImageIO.read(this.getClass().getResource("WinScreen.png")).getScaledInstance(Game.WIDTH, Game.HEIGHT,
@@ -91,9 +94,8 @@ public class EnergyFalcon extends Game {
 			}
 			break;
 		case CONTROLS:
-			//TODO make controls screen graphics.drawImage(controls, 0, 0, null);
-			graphics.setColor(Color.RED);
-			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+	
+			graphics.drawImage(controls, 0, 0, null);
 			if(allowNextChangeTime < System.nanoTime()){
 				if (input.pressed(Button.B)) {
 					justChanged = true;
@@ -138,9 +140,7 @@ public class EnergyFalcon extends Game {
 			}
 			break;
 		case PAUSE:
-			//TODO make pause screen graphics.drawImage(pause, 0, 0, null);
-			graphics.setColor(Color.BLUE);
-			graphics.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+			graphics.drawImage(pause, 0, 0, null);
 			if(allowNextChangeTime < System.nanoTime()){
 				if (input.pressed(Button.B)) {
 					justChanged = true;
