@@ -10,8 +10,8 @@ import arcadia.Game;
 
 public class Pilum {
 	private static final double DEFAULT_SPEED = 5.0;
-	private static int PILUM_HEIGHT = 25;
-	private static int PILUM_WIDTH = 100;
+	private static int PILUM_HEIGHT = 12;
+	private static int PILUM_WIDTH = 50;
 	private static final int NUM_COLLIDERS = 15;
 	
 	private Vector2D direction;

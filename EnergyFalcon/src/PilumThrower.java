@@ -15,7 +15,7 @@ public class PilumThrower extends Enemy{
 	private static final double ENEMY_KNOCKBACK_VEL = 10.0;
 	private static final double ENEMY_KNOCKBACK_DECCEL = 1.0;
 	
-	private static final long FIREBALL_WAIT = 1800000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
+	private static final long FIREBALL_WAIT = 3000000000L; // Time after the wizard appears to when it throws its fireball. 1/3 seconds
 	
 	private boolean isVisible = true;
 	private boolean isEnabled = true;
