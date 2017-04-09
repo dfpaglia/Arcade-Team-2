@@ -112,12 +112,12 @@ public class EnergyFalcon extends Game {
 			if (!started) {
 				init();
 			}
-			graphics.drawImage(background, 0, 0, null);
 			p.onTick(input);
 			spawn.onTick(input);
 
 			CollisionTracker.handleCollisions();
-
+			
+			graphics.drawImage(background, 0, 0, null);
 			p.draw(graphics);
 			spawn.draw(graphics);
 			if (p.getPlayerHealth() <= 0) {
@@ -140,6 +140,9 @@ public class EnergyFalcon extends Game {
 			}
 			break;
 		case PAUSE:
+			graphics.drawImage(background, 0, 0, null);
+			p.draw(graphics);
+			spawn.draw(graphics);
 			graphics.drawImage(pause, 0, 0, null);
 			if(allowNextChangeTime < System.nanoTime()){
 				if (input.pressed(Button.B)) {
