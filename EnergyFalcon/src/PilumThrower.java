@@ -3,6 +3,8 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import DavidMohrhardt.Animator;
+import DavidMohrhardt.Sprite;
 import arcadia.Input;
 
 public class PilumThrower extends Enemy{
@@ -21,6 +23,10 @@ public class PilumThrower extends Enemy{
 	private ArrayList<Pilum> pilums;
 	
 	private Vector2D knockbackVel;
+	//Sprite Stuff
+	private Animator pilumA;
+	private Sprite pilumS;
+	private ArrayList<String> actions;
 	
 	private class PilumThrowerCollider extends BoxCollision{
 		public PilumThrowerCollider(double x, double y, double width, double height) {
@@ -84,6 +90,12 @@ public class PilumThrower extends Enemy{
 	
 	public PilumThrower(Player p){
 		super(p, 0, 0);
+		
+		pilumA = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrowerSpriteSheet.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrower.ssc");
+		pilumS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrowerSpriteSheet.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrower.ssc");
+		actions = pilumS.getActions();
+		
+		
 		long curTime = System.nanoTime();
 		fireTime = curTime + FIREBALL_WAIT;
 		pilums = new ArrayList<Pilum>();
@@ -128,10 +140,14 @@ public class PilumThrower extends Enemy{
 	@Override
 	public void draw(Graphics2D g) {
 		if(isVisible){
-			g.setColor(Color.CYAN);
-			g.fillRect((int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
+			if(p.getX() <= getX())
+				g.drawImage(pilumS.getFrame("AttackLeft", 0).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0), (int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), null);
+			else if (p.getX() > getX())
+				g.drawImage(pilumS.getFrame("AttackRight", 0).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0), (int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), null);
+			//g.setColor(Color.CYAN);
+			//g.fillRect((int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
 		}
-		g.setColor(Color.red);
+		//dg.setColor(Color.red);
 		for(Pilum f : pilums){
 			f.draw(g);
 		}
@@ -178,9 +194,14 @@ public class PilumThrower extends Enemy{
 	public double getHeight() {
 		return ENEMY_HEIGHT;
 	}
+	
+	public double getX(){
+		return x;
+	}
 
 	@Override
 	public EnemyType getType() {
 		return EnemyType.PILUM_THROWER;
 	}
+
 }

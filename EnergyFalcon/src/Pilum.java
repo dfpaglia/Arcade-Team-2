@@ -1,19 +1,24 @@
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import arcadia.Game;
 
 public class Pilum {
 	private static final double DEFAULT_SPEED = 5.0;
 	private static int PILUM_HEIGHT = 25;
-	private static int PILUM_WIDTH = 200;
+	private static int PILUM_WIDTH = 100;
 	private static final int NUM_COLLIDERS = 15;
 	
 	private Vector2D direction;
 	private boolean shouldDelete = false;
 	private boolean shouldDestruct = false;
 	private BufferedImage pilumImage;
+	private Image pil;
 	private double x, y;
 	
 	private class PilumCollider extends CircularCollision{
@@ -51,6 +56,13 @@ public class Pilum {
 	private PilumCollider[] c = new PilumCollider[NUM_COLLIDERS];
 	
 	public Pilum(double x, double y, Vector2D direction){
+		
+		try {
+			pil = ImageIO.read(this.getClass().getResource("Pilum.png")).getScaledInstance(PILUM_WIDTH, PILUM_HEIGHT, 0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		double angle = Math.atan2(direction.getY(), direction.getX());
 		this.direction = Vector2D.scale(Vector2D.unitVector(direction), DEFAULT_SPEED);
 		pilumImage = new BufferedImage(2*PILUM_WIDTH, 2*PILUM_WIDTH, BufferedImage.TYPE_4BYTE_ABGR);
@@ -59,7 +71,8 @@ public class Pilum {
 		
 		Graphics2D g = pilumImage.createGraphics();
 		g.transform(t);
-		g.fillRect(PILUM_WIDTH, PILUM_WIDTH, PILUM_WIDTH, PILUM_HEIGHT);
+		g.drawImage(pil, PILUM_WIDTH, PILUM_WIDTH, null);
+		//g.fillRect(PILUM_WIDTH, PILUM_WIDTH, PILUM_WIDTH, PILUM_HEIGHT);
 		//g.drawLine(PILUM_WIDTH, PILUM_WIDTH + PILUM_HEIGHT/2, 2*PILUM_WIDTH, PILUM_WIDTH + PILUM_HEIGHT/2);
 		
 		
@@ -72,6 +85,13 @@ public class Pilum {
 		}
 	}
 	public Pilum(double x, double y, Vector2D direction, double speed){
+		
+		try {
+			pil = ImageIO.read(this.getClass().getResource("Pilum.png")).getScaledInstance(PILUM_WIDTH, PILUM_HEIGHT, 0);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		double angle = Math.atan2(direction.getY(), direction.getX());
 		this.direction = Vector2D.scale(Vector2D.unitVector(direction), speed);
 		pilumImage = new BufferedImage(2*PILUM_WIDTH, 2*PILUM_WIDTH, BufferedImage.TYPE_4BYTE_ABGR);
@@ -80,7 +100,8 @@ public class Pilum {
 		
 		Graphics2D g = pilumImage.createGraphics();
 		g.transform(t);
-		g.fillRect(PILUM_WIDTH, PILUM_WIDTH, PILUM_WIDTH, PILUM_HEIGHT);
+		g.drawImage(pil, PILUM_WIDTH, PILUM_WIDTH, null);
+		//g.fillRect(PILUM_WIDTH, PILUM_WIDTH, PILUM_WIDTH, PILUM_HEIGHT);
 		
 		this.x = x;
 		this.y = y;

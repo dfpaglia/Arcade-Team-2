@@ -1,12 +1,18 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.IOException;
+
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import arcadia.Button;
 import arcadia.Game;
 import arcadia.Input;
 
-public class Player implements Actor {
+
+import DavidMohrhardt.*;
+
+public class Player implements Actor{
 
 	private static final double ACCEL = 1;
 	private static final double DECCEL = 1;
@@ -31,9 +37,14 @@ public class Player implements Actor {
 
 	private Direction d;
 	private Sword sword;
+	
+	private Animator playerSS;
+	private Sprite pS;
+	private ArrayList<String> actions;
 	private Parry parry;
 
 	// Nested collision class for player
+
 	private class PlayerCollision extends BoxCollision {
 
 		public PlayerCollision(double x, double y, double width, double height) {
@@ -84,25 +95,22 @@ public class Player implements Actor {
 	private PlayerCollision collision;
 
 	public Player() {
-		try {
-			playerSprite = ImageIO.read(this.getClass().getResource("PCSprite.png"));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		playerSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
+		pS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
+		actions = pS.getActions();
 
 		collision = new PlayerCollision(x - PLAYER_WIDTH / 2, y - PLAYER_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT);
 		health = new PlayerHealth();
 
 		knockbackVel = new Vector2D(0, 0, 1);
 		vel = new Vector2D(0, 0, 1);
-		playerSprite = playerSprite.getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0);
 		x = Game.WIDTH / 2;
 		y = Game.HEIGHT / 2;
 
 		d = Direction.DOWN;
-		sword = new Sword();
-		parry = new Parry();
+		sword = new Sword(this);
+		parry = new Parry(this);
 	}
 
 	public static int getPlayerWidth() {
@@ -146,10 +154,49 @@ public class Player implements Actor {
 		return collision;
 	}
 
-	public void draw(Graphics2D g) {
-		g.drawImage(playerSprite, (int) Math.round(x - (PLAYER_WIDTH / 2)), (int) Math.round(y - (PLAYER_HEIGHT / 2)),
-				null);
+	
+	//Let's say that 
+	//Create a timer, check when the timer
 
+	public void draw(Graphics2D g) {
+		
+		 //if the player is not attacking
+			switch(getDirection()){
+				case UP:
+					if(sword.getIsSwinging() || parry.isParrying())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(3), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else{
+						g.drawImage(playerSS.startActionAnimation("WalkUp").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+						//g.drawImage(playerSS.getFrameAtIndex(actions.get(6), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					}
+					break;
+				case DOWN:
+					if(sword.getIsSwinging() || parry.isParrying())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(5), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.startActionAnimation("WalkDown").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+						//g.drawImage(playerSS.getFrameAtIndex(actions.get(4), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+				case LEFT:
+					if(sword.getIsSwinging() || parry.isParrying())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(7), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.startActionAnimation("WalkLeft").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+						//g.drawImage(playerSS.getFrameAtIndex(actions.get(1), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+				case RIGHT:
+					if(sword.getIsSwinging() || parry.isParrying())
+						g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//Movement \/ and Attack /\
+					else
+						g.drawImage(playerSS.startActionAnimation("WalkRight").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+						//g.drawImage(playerSS.getFrameAtIndex(actions.get(0), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					break;
+			}
+		
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);
 		parry.draw(g);

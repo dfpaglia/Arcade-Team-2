@@ -6,7 +6,6 @@ public class CollisionData {
 	private PlayerHealth hp = null;
 	private int wallType = -1;
 	private boolean isParry;
-	
 	private Fireball f;
 
 	public CollisionData(Collider c) {
