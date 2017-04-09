@@ -30,50 +30,56 @@ public class Player implements Actor{
 	private Vector2D knockbackVel;
 	private Image playerSprite;
 	private PlayerHealth health;
+
+	public PlayerHealth getHealth() {
+		return health;
+	}
+
 	private Direction d;
 	private Sword sword;
 	
 	private Animator playerSS;
 	private Sprite pS;
 	private ArrayList<String> actions;
-		
-
 	private Parry parry;
 
 	// Nested collision class for player
+
 	private class PlayerCollision extends BoxCollision {
+
 		public PlayerCollision(double x, double y, double width, double height) {
 			super(x, y, width, height, CollisionType.PLAYER_HITBOX_COLLISION);
 		}
 
 		public void onCollide(CollisionType t, CollisionData extraData) {
-			switch(t){
-				case ENEMY_HURTBOX_COLLISION:
-					if(health.canBeHurt()){
-						knockbackVel = new Vector2D(Player.this.x - extraData.getX() - (extraData.getWidth()/2), Player.this.y - extraData.getY() - (extraData.getHeight()/2), 1);
-						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), KNOCKBACK_VEL);
-						health.hurt();
-					}
+			switch (t) {
+			case ENEMY_HURTBOX_COLLISION:
+				if (health.canBeHurt()) {
+					knockbackVel = new Vector2D(Player.this.x - extraData.getX() - (extraData.getWidth() / 2),
+							Player.this.y - extraData.getY() - (extraData.getHeight() / 2), 1);
+					knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), KNOCKBACK_VEL);
+					health.hurt();
+				}
+				break;
+			case WALL_COLLISION:
+				switch (extraData.getWall()) {
+				case Wall.TOP_WALL:
+					setY(Wall.TOP_WALL_EDGE + PLAYER_HEIGHT / 2);
+					vel.setY(0);
 					break;
-				case WALL_COLLISION:
-					switch(extraData.getWall()){
-						case Wall.TOP_WALL:
-							setY(Wall.TOP_WALL_EDGE + PLAYER_HEIGHT/2);
-							vel.setY(0);
-							break;
-						case Wall.BOTTOM_WALL:
-							setY(Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT/2 - 1);
-							vel.setY(0);
-							break;
-						case Wall.LEFT_WALL:
-							setX(Wall.LEFT_WALL_EDGE + PLAYER_WIDTH/2);
-							vel.setX(0);
-							break;
-						case Wall.RIGHT_WALL:
-							setX(Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH/2 - 1);
-							vel.setX(0);
-							break;
-					}
+				case Wall.BOTTOM_WALL:
+					setY(Wall.BOTTOM_WALL_EDGE - PLAYER_HEIGHT / 2 - 1);
+					vel.setY(0);
+					break;
+				case Wall.LEFT_WALL:
+					setX(Wall.LEFT_WALL_EDGE + PLAYER_WIDTH / 2);
+					vel.setX(0);
+					break;
+				case Wall.RIGHT_WALL:
+					setX(Wall.RIGHT_WALL_EDGE - PLAYER_WIDTH / 2 - 1);
+					vel.setX(0);
+					break;
+				}
 				break;
 			default:
 				break;
@@ -83,7 +89,7 @@ public class Player implements Actor{
 		@Override
 		CollisionData getCollisionData() {
 			return new CollisionData(this, health);
-		}		
+		}
 	}
 
 	private PlayerCollision collision;
@@ -142,11 +148,12 @@ public class Player implements Actor{
 		sword.onTick(input, this);
 		parry.onTick(input, this);
 	}
-	
-	public Collider getCollider(){
+
+	public Collider getCollider() {
 
 		return collision;
 	}
+
 	
 	//Let's say that 
 	//Create a timer, check when the timer

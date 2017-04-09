@@ -162,4 +162,9 @@ public class PilumThrower extends Enemy{
 		return x;
 	}
 
+	@Override
+	public EnemyType getType() {
+		return EnemyType.PILUM_THROWER;
+	}
+
 }

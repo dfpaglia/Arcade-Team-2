@@ -3,5 +3,7 @@ public enum GameState {
 	START, 
 	PLAY, 
 	VICTORY, 
-	DEFEAT
+	DEFEAT,
+	CONTROLS,
+	PAUSE
 }

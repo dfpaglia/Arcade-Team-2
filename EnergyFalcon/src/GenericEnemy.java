@@ -26,22 +26,24 @@ public class GenericEnemy extends Enemy {
 			super(x, y, width, height, CollisionType.ENEMY_HITBOX_COLLISION, CollisionType.ENEMY_HURTBOX_COLLISION);
 		}
 
-
 		public void onCollide(CollisionType t, CollisionData extraData) {
 			if (isEnabled) {
 				switch (t) {
 				case PLAYER_HITBOX_COLLISION:
 					// TODO should something happen to this enemy if it collides
 					// with the player?
+					if (extraData.isParry()) {
+						knockbackVel = new Vector2D(GenericEnemy.this.x - extraData.getX() - (ENEMY_WIDTH / 2),
+								GenericEnemy.this.y - extraData.getY() - (ENEMY_HEIGHT / 2), 1);
+						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL);
+					}
 					break;
 				case PLAYER_HURTBOX_COLLISION:
 					if (h.canBeHurt()) {
 						knockbackVel = new Vector2D(GenericEnemy.this.x - extraData.getX() - (extraData.getWidth() / 2),
-								GenericEnemy.this.y - extraData.getY() - (extraData.getWidth() / 2), 1);
+								GenericEnemy.this.y - extraData.getY() - (extraData.getHeight() / 2), 1);
 						knockbackVel = Vector2D.scale(Vector2D.unitVector(knockbackVel), ENEMY_KNOCKBACK_VEL);
-						if (!extraData.isParry()) {
-							h.hurt();
-						}
+						h.hurt();
 					}
 					break;
 				case WALL_COLLISION:
@@ -80,19 +82,20 @@ public class GenericEnemy extends Enemy {
 	};
 
 	private EnemyCollision collision;
+
 	public GenericEnemy(Player p) {
 		super(p, 0, 0);
 		collision = new EnemyCollision(x - ENEMY_WIDTH / 2, y - ENEMY_HEIGHT / 2, ENEMY_WIDTH, ENEMY_HEIGHT, this);
 		vel = new Vector2D(0, 0, 1);
 		knockbackVel = new Vector2D(0, 0, 1);
 		h = new EnemyHealth(3);
+		
 		try {		
 			enemySprite = ImageIO.read(this.getClass().getResource("Gladiator.png")).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0);;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	public void onTick(Input input) {
 		if (!isEnabled)
@@ -162,6 +165,11 @@ public class GenericEnemy extends Enemy {
 	@Override
 	public double getHeight() {
 		return ENEMY_HEIGHT;
+	}
+
+	@Override
+	public EnemyType getType() {
+		return EnemyType.GENERIC_ENEMY;
 	}
 
 }

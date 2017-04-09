@@ -6,7 +6,8 @@ public class CollisionData {
 	private PlayerHealth hp = null;
 	private int wallType = -1;
 	private boolean isParry;
-	
+	private Fireball f;
+
 
 	public CollisionData(Collider c) {
 		x = c.getX();
@@ -46,12 +47,24 @@ public class CollisionData {
 		isParry = true;
 	}
 
+	public CollisionData(Fireball f) {
+		this.f = f;
+	}
+
 	public boolean isParry() {
 		return isParry;
 	}
 
+	public boolean isFireball() {
+		return f != null;
+	}
+
 	public int getWall() {
 		return wallType;
+	}
+
+	public Fireball getFireball() {
+		return f;
 	}
 
 	public EnemyHealth getEnemyHealth() {
