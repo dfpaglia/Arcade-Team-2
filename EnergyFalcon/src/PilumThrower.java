@@ -65,8 +65,8 @@ public class PilumThrower extends Enemy{
 	public PilumThrower(Player p){
 		super(p, 0, 0);
 		
-		pilumA = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrowerSpriteSheet.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrower.ssc");
-		pilumS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrowerSpriteSheet.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\PilumThrower.ssc");
+		pilumA = new Animator(this.getClass().getResource("PilumThrowerSpriteSheet.png").getPath(), this.getClass().getResource("PilumThrower.ssc").getPath());
+		pilumS = new Sprite(this.getClass().getResource("PilumThrowerSpriteSheet.png").getPath(), this.getClass().getResource("PilumThrower.ssc").getPath());
 		actions = pilumS.getActions();
 		
 		

@@ -30,8 +30,8 @@ public class Parry {
 	private Player p2;
 	
 	public Parry(Player p){
-		shieldSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.ssc");
-		sS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.ssc");
+		shieldSS = new Animator(this.getClass().getResource("Shield.png").getPath(), this.getClass().getResource("Shield.ssc").getPath());
+		sS = new Sprite(this.getClass().getResource("Shield.png").getPath(), this.getClass().getResource("Shield.ssc").getPath());
 		actions = sS.getActions();
 		p2 = p;
 		

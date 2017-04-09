@@ -28,7 +28,6 @@ public class Player implements Actor{
 	private double x, y;
 	private Vector2D vel;
 	private Vector2D knockbackVel;
-	private Image playerSprite;
 	private PlayerHealth health;
 
 	public PlayerHealth getHealth() {
@@ -96,8 +95,8 @@ public class Player implements Actor{
 
 	public Player() {
 		
-		playerSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
-		pS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\SpriteSheetPC.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Player.ssc");
+		playerSS = new Animator(this.getClass().getResource("SpriteSheetPC.png").getPath(), this.getClass().getResource("Player.ssc").getPath());
+		pS = new Sprite(this.getClass().getResource("SpriteSheetPC.png").getPath(), this.getClass().getResource("Player.ssc").getPath());
 		actions = pS.getActions();
 
 		collision = new PlayerCollision(x - PLAYER_WIDTH / 2, y - PLAYER_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT);
