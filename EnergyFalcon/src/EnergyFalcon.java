@@ -230,6 +230,7 @@ public class EnergyFalcon extends Game {
 		started = false;
 		lost = false;
 		won = false;
+		spawn.destruct();
 		backgroundMusic.stop();
 		defeatMusic.stop();
 		victoryMusic.stop();

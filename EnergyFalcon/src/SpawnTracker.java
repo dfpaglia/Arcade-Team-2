@@ -118,7 +118,16 @@ public class SpawnTracker {
 		return (int) Math.round(Math.sqrt(round) + round);
 
 	}
-
+	
+	public void destruct(){
+		Iterator<Enemy> it = enemies.iterator();
+		Enemy e;
+		while (it.hasNext()) {
+			e = it.next();
+			e.destruct();
+		}
+	}
+	
 	public boolean winner() {
 
 		return round > 5;
