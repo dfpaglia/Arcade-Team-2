@@ -1,6 +1,7 @@
 package DavidMohrhardt;
 
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -31,8 +32,8 @@ public class Animator {
 	 * @param spritePath The path to the sprite sheet
 	 * @param spriteScript The path to the spite script
 	 */
-	public Animator(String spritePath, String spriteScript) {
-		sprite = new Sprite(spritePath, spriteScript);
+	public Animator(InputStream spriteImage, InputStream spriteScript) {
+		sprite = new Sprite(spriteImage, spriteScript);
 		actions = sprite.getActions();
 	}
 

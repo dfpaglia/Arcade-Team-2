@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -91,8 +92,13 @@ public class PilumThrower extends Enemy{
 	public PilumThrower(Player p){
 		super(p, 0, 0);
 		
-		pilumA = new Animator(this.getClass().getResource("PilumThrowerSpriteSheet.png").getPath(), this.getClass().getResource("PilumThrower.ssc").getPath());
-		pilumS = new Sprite(this.getClass().getResource("PilumThrowerSpriteSheet.png").getPath(), this.getClass().getResource("PilumThrower.ssc").getPath());
+		try {
+			pilumA = new Animator(this.getClass().getResource("PilumThrowerSpriteSheet.png").openStream(), this.getClass().getResource("/PilumThrower.ssc").openStream());
+			pilumS = new Sprite(this.getClass().getResource("PilumThrowerSpriteSheet.png").openStream(), this.getClass().getResource("/PilumThrower.ssc").openStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		actions = pilumS.getActions();
 		
 		

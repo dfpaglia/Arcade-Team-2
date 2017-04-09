@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,7 +42,7 @@ public class Sprite {
 	 * @param spritePath The path to the sprite sheet for this sprite.
 	 * @param spriteScript The path to the sprite script for the given sprite sheet.
 	 */
-	public Sprite(String spritePath, String spriteScript) {
+	public Sprite(InputStream spriteImage, InputStream spriteScript) {
 		sprite_sheet = null;
 		actions = new HashMap<String, FrameData>();
 
@@ -50,13 +52,12 @@ public class Sprite {
 
 		// Get the sprite sheet
 		try {
-			System.out.println(spritePath);
-			sprite_sheet = ImageIO.read(new File(spritePath));
+			sprite_sheet = ImageIO.read(spriteImage);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
 		}
-
+		/*
 		// Check for proper script extension
 		String script = "ssc";
 		String extension = spriteScript.substring(spriteScript.lastIndexOf(".") + 1, spriteScript.length());
@@ -65,8 +66,7 @@ public class Sprite {
 			System.out.println("Improper file extension!  Please link a .ssc script!");
 			System.exit(-1);
 		}
-
-		FileReader sprite_script;
+		*/
 		BufferedReader sprite_script_reader;
 
 		String line;
@@ -78,9 +78,8 @@ public class Sprite {
 
 		// Read the script and parse the information;
 		try {
-			sprite_script = new FileReader(spriteScript);
 
-			sprite_script_reader = new BufferedReader(sprite_script);
+			sprite_script_reader = new BufferedReader(new InputStreamReader(spriteScript));
 
 			int row_count = 0;
 			
@@ -128,7 +127,7 @@ public class Sprite {
 				if (data_read >= 6) {
 					
 					// Debugging
-					System.out.println("Reading Frame Data " + data_read + " mod 2 = " + data_read % 2);
+					//System.out.println("Reading Frame Data " + data_read + " mod 2 = " + data_read % 2);
 					
 					switch (data_read % 2) {
 					case (0):

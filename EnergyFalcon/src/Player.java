@@ -95,8 +95,13 @@ public class Player implements Actor{
 
 	public Player() {
 		
-		playerSS = new Animator(this.getClass().getResource("SpriteSheetPC.png").getPath(), this.getClass().getResource("Player.ssc").getPath());
-		pS = new Sprite(this.getClass().getResource("SpriteSheetPC.png").getPath(), this.getClass().getResource("Player.ssc").getPath());
+		try {
+			playerSS = new Animator(this.getClass().getResource("/SpriteSheetPC.png").openStream(), this.getClass().getResource("/Player.ssc").openStream());
+			pS = new Sprite(this.getClass().getResource("/SpriteSheetPC.png").openStream(), this.getClass().getResource("/Player.ssc").openStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		actions = pS.getActions();
 
 		collision = new PlayerCollision(x - PLAYER_WIDTH / 2, y - PLAYER_HEIGHT / 2, PLAYER_WIDTH, PLAYER_HEIGHT);

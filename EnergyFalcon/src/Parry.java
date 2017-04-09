@@ -1,4 +1,5 @@
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import DavidMohrhardt.Animator;
@@ -30,8 +31,13 @@ public class Parry {
 	private Player p2;
 	
 	public Parry(Player p){
-		shieldSS = new Animator(this.getClass().getResource("Shield.png").getPath(), this.getClass().getResource("Shield.ssc").getPath());
-		sS = new Sprite(this.getClass().getResource("Shield.png").getPath(), this.getClass().getResource("Shield.ssc").getPath());
+		try {
+			shieldSS = new Animator(this.getClass().getResource("Shield.png").openStream(), this.getClass().getResource("Shield.ssc").openStream());
+			sS = new Sprite(this.getClass().getResource("Shield.png").openStream(), this.getClass().getResource("Shield.ssc").openStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		actions = sS.getActions();
 		p2 = p;
 		

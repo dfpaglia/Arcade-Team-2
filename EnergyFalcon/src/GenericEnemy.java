@@ -91,7 +91,7 @@ public class GenericEnemy extends Enemy {
 		h = new EnemyHealth(3);
 		
 		try {		
-			enemySprite = ImageIO.read(this.getClass().getResource("Gladiator.png")).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0);;
+			enemySprite = ImageIO.read(this.getClass().getResource("/Gladiator.png")).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0);;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

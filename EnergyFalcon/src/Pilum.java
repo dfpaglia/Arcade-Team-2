@@ -58,7 +58,7 @@ public class Pilum {
 	public Pilum(double x, double y, Vector2D direction){
 		
 		try {
-			pil = ImageIO.read(this.getClass().getResource("Pilum.png")).getScaledInstance(PILUM_WIDTH, PILUM_HEIGHT, 0);
+			pil = ImageIO.read(this.getClass().getResource("/Pilum.png")).getScaledInstance(PILUM_WIDTH, PILUM_HEIGHT, 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
