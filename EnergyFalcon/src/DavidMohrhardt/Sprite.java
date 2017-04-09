@@ -1,4 +1,4 @@
-package DavidMohrhardt.animator;
+package DavidMohrhardt;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
  * any queries for a particular frame.  It uses a SpriteBuilder object 
  * 
  */
-class Sprite {
+public class Sprite {
 
 	private BufferedImage sprite_sheet;
 
@@ -50,6 +50,7 @@ class Sprite {
 
 		// Get the sprite sheet
 		try {
+			System.out.println(spritePath);
 			sprite_sheet = ImageIO.read(new File(spritePath));
 		} catch (IOException e) {
 			e.printStackTrace();

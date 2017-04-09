@@ -1,0 +1,23 @@
+sprite_sheet    :=Sprite Sheet PC.png;
+size_x          :=16;
+size_y          :=16;
+padding_x       :=0;
+padding_y       :=0;
+num_rows        :=8;
+action          :=HoldLeft;
+columns         :=1;
+action          :=WalkRight;
+columns         :=1;
+action          :=WalkLeft;
+columns         :=1;
+action          :=HoldRight;
+columns         :=1;
+action          :=HoldLeft2;
+columns         :=1;
+action          :=HoldRight2;
+columns         :=1;
+action          :=AttackLeft;
+columns         :=1;
+action          :=AttackRight;
+columns         :=1;
+END

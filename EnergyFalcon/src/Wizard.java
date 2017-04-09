@@ -52,7 +52,7 @@ public class Wizard extends Enemy {
 		}
 
 		CollisionData getCollisionData() {
-			return new CollisionData(this, health, EnemyType.WIZARD);
+			return new CollisionData(this/*, health, EnemyType.WIZARD*/);
 		}
 	}
 
@@ -148,6 +148,6 @@ public class Wizard extends Enemy {
 
 	@Override
 	public EnemyType getType() {
-		return EnemyType.WIZARD;
+		return EnemyType.GENERIC_ENEMY;
 	}
 }

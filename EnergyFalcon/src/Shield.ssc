@@ -1,0 +1,13 @@
+sprite_sheet    :=Shield.png;
+size_x          :=16;
+size_y          :=16;
+padding_x       :=0;
+padding_y       :=0;
+num_rows        :=3;
+action          :=Down;
+columns         :=1;
+action          :=Side;
+columns         :=1;
+action          :=Up;
+columns         :=1;
+END

@@ -1,5 +1,8 @@
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
+import DavidMohrhardt.Animator;
+import DavidMohrhardt.Sprite;
 import arcadia.Button;
 import arcadia.Input;
 
@@ -18,6 +21,21 @@ public class Parry {
 
 	private double lastX;
 	private double lastY;
+	
+	private Animator shieldSS;
+	private Sprite sS;
+	private ArrayList<String> actions;
+	
+	private int direct;
+	private Player p2;
+	
+	public Parry(Player p){
+		shieldSS = new Animator("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.ssc");
+		sS = new Sprite("C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.png", "C:\\Users\\Taube\\git\\Arcade-Team-2\\EnergyFalcon\\src\\Shield.ssc");
+		actions = sS.getActions();
+		p2 = p;
+		
+	}
 
 	private class ParryHitBox extends BoxCollision {
 
@@ -47,18 +65,22 @@ public class Parry {
 			endDelay = endParry + PARRY_DELAY_DELTA;
 			switch (p.getDirection()) {
 			case DOWN:
+				direct = 0;
 				hbox = new ParryHitBox(p.getX() - PARRY_LENGTH / 2, p.getY() + Player.getPlayerHeight() / 2,
 						PARRY_LENGTH, PARRY_WIDTH, p);
 				break;
 			case LEFT:
+				direct = 1;
 				hbox = new ParryHitBox(p.getX() - Player.getPlayerWidth() / 2 - PARRY_WIDTH,
 						p.getY() - PARRY_LENGTH / 2, PARRY_WIDTH, PARRY_LENGTH, p);
 				break;
 			case RIGHT:
+				direct = 2;
 				hbox = new ParryHitBox(p.getX() + Player.getPlayerWidth() / 2, p.getY() - PARRY_LENGTH / 2, PARRY_WIDTH,
 						PARRY_LENGTH, p);
 				break;
 			case UP:
+				direct = 3;
 				hbox = new ParryHitBox(p.getX() - PARRY_LENGTH / 2,
 						p.getY() - Player.getPlayerHeight() / 2 - PARRY_WIDTH, PARRY_LENGTH, PARRY_WIDTH, p);
 				break;
@@ -85,10 +107,27 @@ public class Parry {
 			lastY = p.getY();
 		}
 	}
+	
+	public boolean isParrying(){
+		return isParrying;
+	}
 
 	void draw(Graphics2D g) {
 		if (hbox != null) {
-			hbox.drawCollision(g);
+			switch(direct){ //0 is DOWN, 3 is UP, 1 is LEFT, 2 is RIGHT
+			case 0:
+				g.drawImage(shieldSS.getFrameAtIndex("Down", 0).getScaledInstance(75, 63, 0), (int)p2.getX() - Player.getPlayerWidth()/2, (int)p2.getY(), null);
+				break;
+			case 1:
+				g.drawImage(shieldSS.getFrameAtIndex("Side", 0).getScaledInstance(75, 63, 0), (int)(p2.getX() - Player.getPlayerWidth()), (int)p2.getY() - Player.getPlayerHeight()/2, null);
+				break;
+			case 2: 
+				g.drawImage(shieldSS.getFrameAtIndex("Side", 0).getScaledInstance(75, 63, 0), (int)p2.getX(), (int)p2.getY() - Player.getPlayerHeight()/2, null);
+				break;
+			case 3:
+				g.drawImage(shieldSS.getFrameAtIndex("Up", 0).getScaledInstance(75, 63, 0), (int)p2.getX() - Player.getPlayerWidth()/2, (int)(p2.getY() - Player.getPlayerHeight()), null);
+				break;
+		}
 		}
 	}
 
