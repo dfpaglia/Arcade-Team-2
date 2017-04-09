@@ -148,6 +148,6 @@ public class Wizard extends Enemy {
 
 	@Override
 	public EnemyType getType() {
-		return EnemyType.GENERIC_ENEMY;
+		return null/*EnemyType.WIZARD*/;
 	}
 }
