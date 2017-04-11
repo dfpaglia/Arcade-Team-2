@@ -115,8 +115,7 @@ public class SpawnTracker {
 	}
 
 	private int generateDifficulty() {
-		return (int) Math.round(Math.sqrt(round) + round);
-
+		return (int)Math.max((int) (1.5*Math.round(Math.sqrt(round) + round)), 52);
 	}
 	
 	public void destruct(){
@@ -130,7 +129,7 @@ public class SpawnTracker {
 	
 	public boolean winner() {
 
-		return round > 5;
+		return round > 420/*BALZEIT*/;
 
 	}
 }

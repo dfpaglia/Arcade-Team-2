@@ -150,10 +150,7 @@ public class PilumThrower extends Enemy{
 				g.drawImage(pilumS.getFrame("AttackLeft", 0).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0), (int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), null);
 			else if (p.getX() > getX())
 				g.drawImage(pilumS.getFrame("AttackRight", 0).getScaledInstance(ENEMY_WIDTH, ENEMY_HEIGHT, 0), (int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), null);
-			//g.setColor(Color.CYAN);
-			//g.fillRect((int)Math.floor(x - ENEMY_WIDTH/2), (int)Math.floor(y - ENEMY_HEIGHT/2), (int)(ENEMY_WIDTH), (int)(ENEMY_HEIGHT));
 		}
-		//dg.setColor(Color.red);
 		for(Pilum f : pilums){
 			f.draw(g);
 		}

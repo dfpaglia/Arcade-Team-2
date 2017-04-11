@@ -109,12 +109,20 @@ public class EnergyFalcon extends Game {
 				reset();
 				lastState = null;
 			}
+			
 			if (!started) {
 				init();
 			}
+			
 			p.onTick(input);
 			spawn.onTick(input);
-
+			
+			if (spawn.winner()) {
+				justChanged = true;
+				lastState = GameState.PLAY;
+				state = GameState.VICTORY; // Ends game because player won
+			}
+			
 			CollisionTracker.handleCollisions();
 			
 			graphics.drawImage(background, 0, 0, null);
@@ -126,11 +134,6 @@ public class EnergyFalcon extends Game {
 				state = GameState.DEFEAT; // Ends game because player lost
 			}
 			
-			if (spawn.winner()) {
-				justChanged = true;
-				lastState = GameState.PLAY;
-				state = GameState.VICTORY; // Ends game because player won
-			}
 			if(allowNextChangeTime < System.nanoTime()){
 				if (input.pressed(Button.S)) {
 					justChanged = true;
