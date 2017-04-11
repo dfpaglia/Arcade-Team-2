@@ -149,8 +149,12 @@ public class Player implements Actor{
 	public void onTick(Input input) {
 		calcNextPos(input);
 		collision.setPos(x - PLAYER_WIDTH / 2, y - PLAYER_HEIGHT / 2);
-		sword.onTick(input, this);
-		parry.onTick(input, this);
+		if(!parry.isParrying()){
+			sword.onTick(input, this);
+		}
+		if(!sword.getIsSwinging()){
+			parry.onTick(input, this);
+		}
 	}
 
 	public Collider getCollider() {
@@ -165,41 +169,41 @@ public class Player implements Actor{
 	public void draw(Graphics2D g) {
 		
 		 //if the player is not attacking
-			switch(getDirection()){
-				case UP:
-					if(sword.getIsSwinging() || parry.isParrying())
-						g.drawImage(playerSS.getFrameAtIndex(actions.get(3), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					//Movement \/ and Attack /\
-					else{
-						g.drawImage(playerSS.startActionAnimation("WalkUp").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-						//g.drawImage(playerSS.getFrameAtIndex(actions.get(6), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					}
-					break;
-				case DOWN:
-					if(sword.getIsSwinging() || parry.isParrying())
-						g.drawImage(playerSS.getFrameAtIndex(actions.get(5), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					//Movement \/ and Attack /\
-					else
-						g.drawImage(playerSS.startActionAnimation("WalkDown").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-						//g.drawImage(playerSS.getFrameAtIndex(actions.get(4), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					break;
-				case LEFT:
-					if(sword.getIsSwinging() || parry.isParrying())
-						g.drawImage(playerSS.getFrameAtIndex(actions.get(7), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					//Movement \/ and Attack /\
-					else
-						g.drawImage(playerSS.startActionAnimation("WalkLeft").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-						//g.drawImage(playerSS.getFrameAtIndex(actions.get(1), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					break;
-				case RIGHT:
-					if(sword.getIsSwinging() || parry.isParrying())
-						g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					//Movement \/ and Attack /\
-					else
-						g.drawImage(playerSS.startActionAnimation("WalkRight").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-						//g.drawImage(playerSS.getFrameAtIndex(actions.get(0), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
-					break;
-			}
+		switch(getDirection()){
+			case UP:
+				if(sword.getIsSwinging() || parry.isParrying())
+					g.drawImage(playerSS.getFrameAtIndex(actions.get(3), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				//Movement \/ and Attack /\
+				else{
+					g.drawImage(playerSS.startActionAnimation("WalkUp").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//g.drawImage(playerSS.getFrameAtIndex(actions.get(6), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				}
+				break;
+			case DOWN:
+				if(sword.getIsSwinging() || parry.isParrying())
+					g.drawImage(playerSS.getFrameAtIndex(actions.get(5), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				//Movement \/ and Attack /\
+				else
+					g.drawImage(playerSS.startActionAnimation("WalkDown").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//g.drawImage(playerSS.getFrameAtIndex(actions.get(4), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				break;
+			case LEFT:
+				if(sword.getIsSwinging() || parry.isParrying())
+					g.drawImage(playerSS.getFrameAtIndex(actions.get(7), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				//Movement \/ and Attack /\
+				else
+					g.drawImage(playerSS.startActionAnimation("WalkLeft").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//g.drawImage(playerSS.getFrameAtIndex(actions.get(1), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				break;
+			case RIGHT:
+				if(sword.getIsSwinging() || parry.isParrying())
+					g.drawImage(playerSS.getFrameAtIndex(actions.get(2), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				//Movement \/ and Attack /\
+				else
+					g.drawImage(playerSS.startActionAnimation("WalkRight").getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+					//g.drawImage(playerSS.getFrameAtIndex(actions.get(0), 0).getScaledInstance(PLAYER_WIDTH, PLAYER_HEIGHT, 0), (int)Math.round(x - (PLAYER_WIDTH/2)), (int)Math.round(y - (PLAYER_HEIGHT/2)), null);
+				break;
+		}
 		
 		g.drawImage(health.healthDraw(), 0, 0, null);
 		sword.draw(g);
@@ -263,6 +267,11 @@ public class Player implements Actor{
 		} else {
 			Vector2D knockbackDeccel = Vector2D.scale(Vector2D.unitVector(knockbackVel), -DECCEL);
 			knockbackVel = Vector2D.add(knockbackDeccel, knockbackVel);
+		}
+		if(sword.getIsSwinging()){
+			d = sword.getDirection();
+		}else if(parry.isParrying()){
+			d = parry.getDirection();
 		}
 		// Add velocity to position.
 		x += vel.getX() + knockbackVel.getX();

@@ -27,7 +27,7 @@ public class Parry {
 	private Sprite sS;
 	private ArrayList<String> actions;
 	
-	private int direct;
+	private Direction direct;
 	private Player p2;
 	
 	public Parry(Player p){
@@ -71,22 +71,22 @@ public class Parry {
 			endDelay = endParry + PARRY_DELAY_DELTA;
 			switch (p.getDirection()) {
 			case DOWN:
-				direct = 0;
+				direct = Direction.DOWN;
 				hbox = new ParryHitBox(p.getX() - PARRY_LENGTH / 2, p.getY() + Player.getPlayerHeight() / 2,
 						PARRY_LENGTH, PARRY_WIDTH, p);
 				break;
 			case LEFT:
-				direct = 1;
+				direct = Direction.LEFT;
 				hbox = new ParryHitBox(p.getX() - Player.getPlayerWidth() / 2 - PARRY_WIDTH,
 						p.getY() - PARRY_LENGTH / 2, PARRY_WIDTH, PARRY_LENGTH, p);
 				break;
 			case RIGHT:
-				direct = 2;
+				direct = Direction.RIGHT;
 				hbox = new ParryHitBox(p.getX() + Player.getPlayerWidth() / 2, p.getY() - PARRY_LENGTH / 2, PARRY_WIDTH,
 						PARRY_LENGTH, p);
 				break;
 			case UP:
-				direct = 3;
+				direct = Direction.UP;
 				hbox = new ParryHitBox(p.getX() - PARRY_LENGTH / 2,
 						p.getY() - Player.getPlayerHeight() / 2 - PARRY_WIDTH, PARRY_LENGTH, PARRY_WIDTH, p);
 				break;
@@ -121,20 +121,23 @@ public class Parry {
 	void draw(Graphics2D g) {
 		if (hbox != null) {
 			switch(direct){ //0 is DOWN, 3 is UP, 1 is LEFT, 2 is RIGHT
-			case 0:
+			case DOWN:
 				g.drawImage(shieldSS.getFrameAtIndex("Down", 0).getScaledInstance(75, 63, 0), (int)p2.getX() - Player.getPlayerWidth()/2, (int)p2.getY(), null);
 				break;
-			case 1:
+			case LEFT:
 				g.drawImage(shieldSS.getFrameAtIndex("Side", 0).getScaledInstance(75, 63, 0), (int)(p2.getX() - Player.getPlayerWidth()), (int)p2.getY() - Player.getPlayerHeight()/2, null);
 				break;
-			case 2: 
+			case RIGHT: 
 				g.drawImage(shieldSS.getFrameAtIndex("Side", 0).getScaledInstance(75, 63, 0), (int)p2.getX(), (int)p2.getY() - Player.getPlayerHeight()/2, null);
 				break;
-			case 3:
+			case UP:
 				g.drawImage(shieldSS.getFrameAtIndex("Up", 0).getScaledInstance(75, 63, 0), (int)p2.getX() - Player.getPlayerWidth()/2, (int)(p2.getY() - Player.getPlayerHeight()), null);
 				break;
+			}
 		}
-		}
+	}
+	public Direction getDirection(){
+		return direct;
 	}
 	public void destruct(){
 		if(hbox!=null){

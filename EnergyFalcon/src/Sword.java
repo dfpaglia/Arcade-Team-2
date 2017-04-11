@@ -9,7 +9,7 @@ import arcadia.Input;
 
 public class Sword {
 	
-	private int direct;
+	private Direction direct;
 	
 	private static final long SWORD_SWING_DELTA = 500000000L;
 	private static final long SWORD_DELAY_DELTA = 300000000L;
@@ -79,19 +79,19 @@ public class Sword {
 			switch(p.getDirection()){
 				case DOWN:
 					hurtbox = new SwordHurtbox(p.getX(), p.getY() + Player.getPlayerHeight()/2, SWORD_RADIUS, p);
-					direct = 0;
+					direct = Direction.DOWN;
 					break;
 				case LEFT:
 					hurtbox = new SwordHurtbox(p.getX() - Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS, p);
-					direct = 1;
+					direct = Direction.LEFT;
 					break;
 				case RIGHT:
 					hurtbox = new SwordHurtbox(p.getX() + Player.getPlayerWidth()/2, p.getY(), SWORD_RADIUS, p);
-					direct = 2;
+					direct = Direction.RIGHT;
 					break;
 				case UP:
 					hurtbox = new SwordHurtbox(p.getX(), p.getY() - Player.getPlayerHeight()/2, SWORD_RADIUS, p);
-					direct = 3;
+					direct = Direction.UP;
 					break;
 			}
 			lastY = p.getY();
@@ -121,20 +121,23 @@ public class Sword {
 	public void draw( Graphics2D g){
 		if(hurtbox!=null){
 			switch(direct){ //0 is DOWN, 3 is UP, 1 is LEFT, 2 is RIGHT
-				case 0:
+				case DOWN:
 					g.drawImage(swordSpriteDown, (int)p2.getX() - Player.getPlayerWidth()/2, (int)p2.getY() + Player.getPlayerHeight()/2, null);
 					break;
-				case 1:
+				case LEFT:
 					g.drawImage(swordSpriteLeft, (int)(p2.getX() - Player.getPlayerWidth() * 3/2.0), (int)p2.getY() - Player.getPlayerHeight()/2, null);
 					break;
-				case 2: 
+				case RIGHT: 
 					g.drawImage(swordSpriteRight, (int)p2.getX() + Player.getPlayerWidth()/2, (int)p2.getY() - Player.getPlayerHeight()/2, null);
 					break;
-				case 3:
+				case UP:
 					g.drawImage(swordSpriteUp, (int)p2.getX() - Player.getPlayerWidth()/2, (int)(p2.getY() - Player.getPlayerHeight() * 3/2.0), null);
 					break;
 			}
 		}
+	}
+	public Direction getDirection(){
+		return direct;
 	}
 	public void destruct(){
 		if(hurtbox!=null){
