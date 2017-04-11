@@ -118,7 +118,7 @@ public class Sword {
 		}
 	}
 	
-	void draw( Graphics2D g){
+	public void draw( Graphics2D g){
 		if(hurtbox!=null){
 			switch(direct){ //0 is DOWN, 3 is UP, 1 is LEFT, 2 is RIGHT
 				case 0:
@@ -134,6 +134,11 @@ public class Sword {
 					g.drawImage(swordSpriteUp, (int)p2.getX() - Player.getPlayerWidth()/2, (int)(p2.getY() - Player.getPlayerHeight() * 3/2.0), null);
 					break;
 			}
+		}
+	}
+	public void destruct(){
+		if(hurtbox!=null){
+			hurtbox.destruct();
 		}
 	}
 }

@@ -272,4 +272,10 @@ public class Player implements Actor{
 	public Direction getDirection() {
 		return d;
 	}
+	
+	public void destruct(){
+		collision.destruct();
+		sword.destruct();
+		parry.destruct();
+	}
 }

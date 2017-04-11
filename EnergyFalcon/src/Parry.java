@@ -136,5 +136,10 @@ public class Parry {
 		}
 		}
 	}
+	public void destruct(){
+		if(hbox!=null){
+			hbox.destruct();
+		}
+	}
 
 }
