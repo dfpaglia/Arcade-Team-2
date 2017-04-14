@@ -69,15 +69,18 @@ public class SpawnTracker {
 
 	public void draw(Graphics2D g) {
 		Vector2D fallPos;
+		g.setColor(Color.black);
 		for (Enemy e : enemies) {
-			g.setColor(Color.black);
 			fallPos = enemyToEndPos.get(e);
 			if (fallPos != null) {
 				g.fillOval((int) (fallPos.getX() - SHADOW_DIAMETER / 2), (int) (fallPos.getY() - SHADOW_DIAMETER / 2),
 						(int) SHADOW_DIAMETER, (int) SHADOW_DIAMETER);
 			}
+		}
+		for (Enemy e : enemies) {
 			e.draw(g);
 		}
+		
 	}
 
 	private void generateEnemies() {
@@ -115,7 +118,7 @@ public class SpawnTracker {
 	}
 
 	private int generateDifficulty() {
-		return (int)Math.min((int) (1.5*Math.round(Math.sqrt(round) + round)), 52);
+		return (int)Math.max((int) (1.5*Math.round(Math.sqrt(round) + round)), 52);
 	}
 	
 	public void destruct(){
